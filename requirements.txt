@@ -1,0 +1,7 @@
+selenium>=3.141.0
+requests~=2.31.0
+jsonschema~=4.21.1
+parameterized~=0.9.0
+referencing~=0.33.0
+python-dotenv~=1.0.1
+jira~=3.6.0

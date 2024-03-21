@@ -1,0 +1,23 @@
+{
+
+  "hub": "http://localhost:4444/wd/hub",
+  "url": "https://www.eatthismuch.com/app/planner/today",
+  "grid": false,
+  "parallel": false,
+  "serial": true,
+  "browser": "chrome",
+  "platform": "windows",
+  "browser_types": [
+    "chrome"
+
+  ],
+  "api_url": "https://www.eatthismuch.com/api/v1/",
+  "backend_version": "/?HTTP_BACKEND_VERSION=15",
+  "api_headers":{
+    "X-RapidAPI-Key": "c67ad700cemsh5217e54bf1713cfp1ecedfjsndb9e5d800c06",
+    "X-RapidAPI-Host": "omgvamp-hearthstone-v1.p.rapidapi.com"
+  },
+  "jira_server": "https://hosambd24.atlassian.net",
+  "jira-user": "hosamhegly@gmail.com",
+  "api_cookie":{"Cookie": "_gcl_au=1.1.388917612.1708787835; _ga=GA1.1.1195636706.1708787835; _fbp=fb.1.1708787835142.2064414339; __stripe_mid=5513a90c-8b99-4c8f-8b83-639c1f28d9bd8abb04; _ga_JLTLCVXSYF=GS1.1.1708787834.1.1.1708788548.0.0.0; loggedin=true; sessionid=39rdh5fs5qdgzmlkk0srvzsnu6s39wa9; csrftoken=L8ZnPbm9JsPmw9st9pfujOIh6vXnhI5H; _ga_WJT086Y70E=GS1.1.1710921058.4.1.1710921102.0.0.0"}
+}
