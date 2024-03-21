@@ -42,3 +42,4 @@ class APIWrapper:
         self.response = self.my_request.patch(url, json=body, headers=header)
         self.logger.info(f"Received response: {self.response.status_code}")
         return self.response
+
