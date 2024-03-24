@@ -5,12 +5,11 @@ from concurrent.futures import ThreadPoolExecutor
 from os.path import dirname, join
 
 from tests.ui.test_end_to_end import NutritionalTargetEndToEndTest
-from tests.ui.test_planner_page_edit_day import MealEditTest
-from tests.ui.test_nuritional_target import TestMealSetting
+from tests.ui.test_nuritional_target import TestNutritionalTarget
 from tests.ui.test_weightgoal_test import WeightGoalTest
 
 test_cases = [
-    NutritionalTargetEndToEndTest]
+    TestNutritionalTarget]
 serial_cases = []
 parallel_cases = []
 

@@ -14,7 +14,7 @@ def connect_jira():
     load_dotenv()
     config = get_config_data()
     token = os.getenv("TOKEN")
-    jira_url = config["jira-server"]
+    jira_url = config["jira_server"]
     jira_user = config["jira-user"]
 
     return JIRA(basic_auth=(jira_user, token), options={"server": jira_url})

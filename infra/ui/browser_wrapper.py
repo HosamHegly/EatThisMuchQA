@@ -34,8 +34,8 @@ class BrowserWrapper:
         return self.driver
 
     def close_browser(self):
-        if self.driver:
-            self.driver.close()
+        self.driver.close()
+        self.driver.stop()
 
     def is_parallel(self):
         return self.parallel
