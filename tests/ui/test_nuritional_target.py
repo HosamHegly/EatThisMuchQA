@@ -11,7 +11,7 @@ from test_data.urls import urls
 from logic.api.meal_settings_enpoint import MealSettingsEndPoint
 
 
-class TestMealSetting(unittest.TestCase):
+class TestNutritionalTarget(unittest.TestCase):
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
@@ -21,37 +21,47 @@ class TestMealSetting(unittest.TestCase):
         self.nutritional_target = NutritionalTargetEndPoint(self.my_api)
         self.meal_setting = MealSettingsEndPoint(self.my_api)
         self.test_name = self.id().split('.')[-1]
-
-    def test_valid_nutrional_target_creation(self):
-        response = self.nutritional_target.create_nutritional_target(body=valid_target[0]).json()
-        self.target_id = response['data']['id']
-
-        self.browser_wrapper.goto(urls['Nutritional_Target'])
-        self.nutritional_targets_page = NutritionalTargetPage(self.driver)
-        self.assertIn(response['data']['title'], self.nutritional_targets_page.get_target_titles(),
-                      "nutritional target wasn't added to the target page")
-
-    def test_invalid_nutrional_target_creation(self):
-        response = self.nutritional_target.create_nutritional_target(body=invalid_target[0]).json()
-        self.target_id = response['data']['id']
-
-        self.browser_wrapper.goto(urls['Nutritional_Target'])
-        self.nutritional_targets_page = NutritionalTargetPage(self.driver)
-        self.assertNotIn(response['data']['title'], self.nutritional_targets_page.get_target_titles(),
-                         "invalid nutritional target wasn added to the target page")
-
-    def test_nutrional_target_change_setting(self):
-        response = self.nutritional_target.create_nutritional_target(body=valid_target[1]).json()
-        self.target_id = response['data']['id']
-        self.meal_setting.change_nutritional_target(target_id=self.target_id)
-        self.browser_wrapper.goto(urls['Planner_Page'])
-        self.planner_page = PlannerPage(self.driver)
-        self.planner_page.sync_page()
-        target_cals = self.planner_page.get_target_cals()
-        self.nutritional_target.delete_nutritional_target(target_id=self.target_id)
-        self.assertEqual(target_cals, valid_target[1]['calories'],
-                         msg="calorie target value didn't change in main page when changed in settings")
+        self.target_id = None
 
     def tearDown(self):
-        self.nutritional_target.delete_nutritional_target(target_id=self.target_id)
+        if self.target_id:
+            try:
+                self.nutritional_target.delete_nutritional_target(target_id=self.target_id)
+            except Exception as e:
+                print(f"Failed to delete nutritional target in tearDown: {e}")
         self.browser_wrapper.close_browser()
+
+    def test_valid_nutritional_target_creation(self):
+        try:
+            response = self.nutritional_target.create_nutritional_target(body=valid_target[0]).json()
+            self.target_id = response['data']['id']
+
+            self.browser_wrapper.goto(urls['Nutritional_Target'])
+            nutritional_targets_page = NutritionalTargetPage(self.driver)
+            self.assertIn(response['data']['title'], nutritional_targets_page.get_target_titles(),
+                          "Nutritional target wasn't added to the target page")
+        except Exception as e:
+            self.fail(f"Exception during test_valid_nutritional_target_creation: {e}")
+
+    def test_invalid_nutritional_target_creation(self):
+        try:
+            response = self.nutritional_target.create_nutritional_target(body=invalid_target[0])
+            if response.status_code != 400:
+                self.fail("Invalid nutritional target creation should not succeed")
+        except Exception as e:
+            self.fail(f"Exception during test_invalid_nutritional_target_creation: {e}")
+
+    def test_nutritional_target_change_setting(self):
+        try:
+            response = self.nutritional_target.create_nutritional_target(body=valid_target[1]).json()
+            self.target_id = response['data']['id']
+
+            self.meal_setting.change_nutritional_target(target_id=self.target_id)
+            self.browser_wrapper.goto(urls['Planner_Page'])
+            planner_page = PlannerPage(self.driver)
+            planner_page.sync_page()
+            target_cals = planner_page.get_target_cals()
+            self.assertEqual(target_cals, valid_target[1]['calories'],
+                             msg="Calorie target value didn't change in main page when changed in settings")
+        except Exception as e:
+            self.fail(f"Exception during test_nutritional_target_change_setting: {e}")

@@ -5,3 +5,4 @@ parameterized~=0.9.0
 referencing~=0.33.0
 python-dotenv~=1.0.1
 jira~=3.6.0
+pytest-html

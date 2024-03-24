@@ -18,6 +18,6 @@ class FoodEndPoint:
             return response  # Or process the data as needed
         else:
             # Handle errors
-            error_message = f"Failed to create nutritional target: {response.status_code} {response.text}"
+            error_message = f"failed get food details request: {response.status_code} {response.text}"
             # Log the error, raise an exception, or handle it as needed
             raise Exception(error_message)

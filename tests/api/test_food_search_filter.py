@@ -1,3 +1,4 @@
+import time
 import unittest
 from Utils.helper_functions import choose_random_number_in_range
 from infra.api.api_wrapper import APIWrapper
@@ -12,34 +13,53 @@ class FoodSearchTest(unittest.TestCase):
         self.food = FoodEndPoint(self.my_api)
 
     def test_food_calories_filter_response_body(self, min_cals=300, max_cals=1000):
-        response = self.search_filter_api.search_by_cals(min_cals=min_cals, max_cals=max_cals).json()
-        food_api_list = response['data']['object_resource_uris']
-        food_api = food_api_list[choose_random_number_in_range(0, len(food_api_list))]
-        food_response = self.food.get_food_details(food_api).json()
-        food_cals = int(food_response['data']['calories'])
-        self.assertGreaterEqual(food_cals, 300, 'calories is lower than the minumum cal filter')
-        self.assertLessEqual(food_cals, 1000, 'calories is greater than the maximum cal filter')
+        try:
+            response = self.search_filter_api.search_by_cals(min_cals=min_cals, max_cals=max_cals).json()
+            food_api_list = response['data']['object_resource_uris']
+            food_api = food_api_list[choose_random_number_in_range(0, len(food_api_list))]
+            food_response = self.food.get_food_details(food_api).json()
+            food_cals = int(food_response['data']['calories'])
+            self.assertGreaterEqual(food_cals, 300, 'Calories is lower than the minimum cal filter')
+            self.assertLessEqual(food_cals, 1000, 'Calories is greater than the maximum cal filter')
+        except Exception as e:
+            self.fail(f"Exception thrown during test: {e}")
 
     def test_food_calories_filter_response_code(self, min_cals=300, max_cals=1000):
-        response = self.search_filter_api.search_by_cals(min_cals=min_cals, max_cals=max_cals)
-        self.assertEqual(response.status_code, 200, "didn't get status code 200 on get food details api call")
+        try:
+            response = self.search_filter_api.search_by_cals(min_cals=min_cals, max_cals=max_cals)
+            self.assertEqual(response.status_code, 200, "Didn't get status code 200 on get food details API call")
+        except Exception as e:
+            self.fail(f"Exception thrown during test: {e}")
 
     def test_food_name_filter_response_body(self, food_name_search='meat'):
-        response = self.search_filter_api.search_by_name(food_name_search).json()
-        food_api_list = response['data']['object_resource_uris']
-        food_names = []
-        counter = 0
-        for food_api in food_api_list:
-            if counter >= 4:
-                break
-            counter += 1
-            food_response = self.food.get_food_details(food_api).json()
-            food_name = food_response['data']['food_name'].lower()
-            food_names.append(food_name)
+        try:
+            response = self.search_filter_api.search_by_name(food_name_search).json()
+            food_api_list = response['data']['object_resource_uris']
+            food_names = []
+            for counter, food_api in enumerate(food_api_list[:4]):
+                food_response = self.food.get_food_details(food_api).json()
+                food_name = food_response['data']['food_name'].lower()
+                food_names.append(food_name)
 
-        self.assertTrue(all(food_name_search.lower() in name.lower() for name in food_names),
-                        f"Not all food titles  contain '{food_name_search}'")
+            self.assertTrue(all(food_name_search.lower() in name for name in food_names),
+                            f"Not all food titles contain '{food_name_search}'")
+        except Exception as e:
+            self.fail(f"Exception thrown during test: {e}")
 
     def test_food_name_filter_response_code(self, food_search_name='meat'):
-        response = self.search_filter_api.search_by_name(food_search_name)
-        self.assertEqual(response.status_code, 200, "didn't get status code 200 on get food details api call")
+        try:
+            response = self.search_filter_api.search_by_name(food_search_name)
+            self.assertEqual(response.status_code, 200, "Didn't get status code 200 on get food details API call")
+        except Exception as e:
+            self.fail(f"Exception thrown during test: {e}")
+
+    def test_performance_search_by_name(self, max_time_seconds=100, food_name_search='meat', num_requests=100):
+        try:
+            start_time = time.time()  # Start timer
+            for _ in range(num_requests):
+                self.search_filter_api.search_by_name(food_name_search)
+            total_time = time.time() - start_time  # End timer
+            self.assertLess(total_time, max_time_seconds,
+                            "Performance isn't optimal; took more than 100 seconds to send 100 requests")
+        except Exception as e:
+            self.fail(f"Exception thrown during test: {e}")

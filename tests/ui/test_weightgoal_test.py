@@ -30,12 +30,18 @@ class WeightGoalTest(unittest.TestCase):
         self.weight_goals_page.update_weight(1000)
         self.assertTrue(self.weight_goals_page.get_validation_message() in['Value must be less than or equal to 999.','Please select a value that is no more than 999.'])
 
-    def test_valid_weight_input(self):
-        weight = 80
-        self.mealsettings = MealSettingsEndPoint(self.my_api)
-        self.mealsettings.change_weight(80)
-        self.weight_goals_page.update_weight(weight)
-        self.assertIn(str(weight), self.weight_goals_page.get_last_updated_label())
+    def test_valid_weight_input(self, weight=80):
+
+        try:
+            self.meal_settings = MealSettingsEndPoint(self.my_api)
+            self.meal_settings.change_weight(weight)
+
+            # Update weight on the Weight Goals page and verify it reflects the change
+            self.weight_goals_page.update_weight(weight)
+            self.assertIn(str(weight), self.weight_goals_page.get_last_updated_label(),
+                          "The weight on the Weight Goals page does not reflect the expected value.")
+        except Exception as e:
+            self.fail(f"Exception during test_valid_weight_input: {e}")
 
     def tearDown(self):
         self.browser_wrapper.close_browser()
