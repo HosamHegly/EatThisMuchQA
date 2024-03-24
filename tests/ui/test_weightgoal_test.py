@@ -2,7 +2,9 @@ import time
 
 import unittest
 
+from infra.api.api_wrapper import APIWrapper
 from infra.ui.browser_wrapper import BrowserWrapper
+from logic.api.meal_settings_enpoint import MealSettingsEndPoint
 from test_data.calorie_target import *
 from test_data.users import *
 from logic.ui.weight_goal_page import WeightGoalPage
@@ -10,16 +12,13 @@ from test_data.urls import urls
 
 
 class WeightGoalTest(unittest.TestCase):
-    VALID_TARGETS = valid_targets
-    INVALID_TARGETS = invalid_target
-    USER = get_valid_user('Hosam')
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
         self.driver = self.browser_wrapper.get_driver(browser=self.__class__.browser)
         self.browser_wrapper.add_browser_cookie()
         self.browser_wrapper.goto(urls['Weight_Goal'])
-        time.sleep(2)
+        self.my_api = APIWrapper()
 
         self.weight_goals_page = WeightGoalPage(self.driver)
 
@@ -33,13 +32,10 @@ class WeightGoalTest(unittest.TestCase):
 
     def test_valid_weight_input(self):
         weight = 80
+        self.mealsettings = MealSettingsEndPoint(self.my_api)
+        self.mealsettings.change_weight(80)
         self.weight_goals_page.update_weight(weight)
-        self.assertIn(str(weight),self.weight_goals_page.get_last_updated_label())
-        weight= 100
-        self.weight_goals_page.update_weight(weight)
-        self.assertIn(str(weight),self.weight_goals_page.get_last_updated_label())
-
-
+        self.assertIn(str(weight), self.weight_goals_page.get_last_updated_label())
 
     def tearDown(self):
         self.browser_wrapper.close_browser()

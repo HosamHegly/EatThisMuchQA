@@ -1,4 +1,5 @@
 import random
+import string
 from typing import Final
 
 
@@ -19,3 +20,9 @@ def calculate_macro_calories(protiens, fats, carbs):
 
 def choose_random_number_in_range(min, max):
     return random.randint(min, max)
+
+def generate_random_5_letter_name():
+    # Generate a random first name and last name, each with exactly 5 letters
+    first_name = ''.join(random.choice(string.ascii_letters) for _ in range(5)).capitalize()
+    last_name = ''.join(random.choice(string.ascii_letters) for _ in range(5)).capitalize()
+    return f"{first_name} {last_name}"

@@ -1,3 +1,4 @@
+import time
 from telnetlib import EC
 
 from selenium.webdriver.common.by import By
@@ -39,16 +40,25 @@ class CreateNutritionalTargetPage(BasePage):
     def fill_nutritional_target_inputs(self, title, calories, fiber, min_carbs, max_carbs, min_fats, max_fats,
                                        min_proteins, max_proteins):
         self.clear_all_inputs()
+        time.sleep(1)
         self.title.send_keys(title)
+        time.sleep(1)
         self.calories.send_keys(calories)
+        time.sleep(1)
         self.min_fats.send_keys(min_fats)
+        time.sleep(1)
         self.max_fats.send_keys(max_fats)
+        time.sleep(1)
         self.min_proteins.send_keys(min_proteins)
+        time.sleep(1)
         self.max_proteins.send_keys(max_proteins)
-
+        time.sleep(1)
         self.max_carbs.send_keys(max_carbs)
+        time.sleep(1)
         self.min_carbs.send_keys(min_carbs)
+        time.sleep(1)
         self.fiber.send_keys(fiber)
+        time.sleep(1)
         self.save_button.click()
 
     def clear_all_inputs(self):

@@ -1,16 +1,16 @@
 # test_runner.py
 import json
-import unittest
 from concurrent.futures import ThreadPoolExecutor
 from os.path import dirname, join
 
-from tests.ui.test_end_to_end import NutritionalTargetEndToEndTest
-from tests.ui.test_planner_page_edit_day import MealEditTest
-from tests.ui.test_nuritional_target import TestMealSetting
-from tests.ui.test_weightgoal_test import WeightGoalTest
+from tests.ui_tests.login_page_test import LoginPageTest
+from tests.ui_tests.planner_page_edit_day_test import MealEditTest
+from tests.ui_tests.search_food_popup_test import FoodSearchPopupTest
+from tests.ui_tests.weight_goal_test import WeightGoalTest
+from tests.ui_tests.nutritional_target_input_values_test import *  # Import the tests case
 
-test_cases = [
-    NutritionalTargetEndToEndTest]
+test_cases = [LoginPageTest, MealEditTest, FoodSearchPopupTest, WeightGoalTest,
+              NutritionalTargetsValuesTest]
 serial_cases = []
 parallel_cases = []
 
@@ -36,7 +36,7 @@ def run_tests_for_browser_serial(browsers, serial_tests):
 def run_tests_for_browser_parallel(browsers, parallel_tests):
     tasks = [(browser, test_case) for browser in browsers for test_case in parallel_tests]
 
-    with ThreadPoolExecutor(max_workers=len(tasks)) as executor:
+    with ThreadPoolExecutor(max_workers=4) as executor:
         futures = [executor.submit(run_tests_for_browser, browser, test_case) for browser, test_case in tasks]
 
 
@@ -55,5 +55,14 @@ if __name__ == "__main__":
     is_parallel = config["parallel"]
     is_serial = config["serial"]
     browsers = config["browser_types"]
+    if is_parallel:
+        dived_tests_parallel_non_parallel(test_cases)
+        run_tests_for_browser_parallel(browsers, parallel_cases)
+        run_tests_for_browser_serial(browsers, serial_cases)
 
-    run_tests_for_browser_serial(browsers, test_cases)
+    elif is_serial:
+        run_tests_for_browser_serial(browsers, test_cases)
+    else:
+        browser = config["browser"]
+        for test in test_cases:
+            run_tests_for_browser(browser, test)

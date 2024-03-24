@@ -46,6 +46,7 @@ class BrowserWrapper:
 
     def refresh(self):
         self.driver.refresh()
+        time.sleep(2)
 
     def get_browsers(self):
         return self.config["browser_types"]
@@ -61,7 +62,6 @@ class BrowserWrapper:
     def get_browser(self):
         return self.config['browser']
 
-    # add cookies to driver inorder to  skip login
     def add_browser_cookie(self):
         for cookie in self.COOKIE:
             self.driver.add_cookie(cookie)
