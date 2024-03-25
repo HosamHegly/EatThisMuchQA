@@ -9,7 +9,6 @@ pipeline {
             steps {
                 echo 'Setting up Python environment...'
                 bat 'C:\\Python\\Python312\\python.exe -m venv venv'
-                bat 'venv\\Scripts\\python.exe -m pip install --upgrade pip'
                 bat 'venv\\Scripts\\pip.exe install -r requirements.txt'
             }
             post {
