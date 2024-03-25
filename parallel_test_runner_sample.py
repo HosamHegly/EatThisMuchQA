@@ -11,7 +11,7 @@ def run_pytest(parallel=False):
     # Load configuration
     config = get_config_data()
 
-    ui_tests_path = "tests/api"
+    ui_tests_path = "tests/ui"
     reports_dir = "reports"
     os.makedirs(reports_dir, exist_ok=True)
 
