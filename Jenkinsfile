@@ -10,6 +10,7 @@ pipeline {
                 echo 'Setting up Python environment...'
                 bat 'C:\\Python\\Python312\\python.exe -m venv venv'
                 bat 'venv\\Scripts\\pip.exe install -r requirements.txt'
+                bat 'npm install -g allure-commandline --save-dev'
             }
             post {
                 success {
