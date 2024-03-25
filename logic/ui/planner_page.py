@@ -18,11 +18,13 @@ class PlannerPage(BasePage):
     REGENERATE = (By.XPATH, "//button[@title='Regenerate Day']")
     REGENERATE_POPUP_BUTTON = (By.XPATH, "//button[@class='_interaction_11et8_1 primary svelte-1m78l37']")
     BREAKFAST_LIST = (
-    By.XPATH, "//section[./header[./h3[text()='Breakfast']]]//span[@class='food-name _class_1x8vs_1 svelte-ncaeor']")
+        By.XPATH,
+        "//section[./header[./h3[text()='Breakfast']]]//span[@class='food-name _class_1x8vs_1 svelte-ncaeor']")
     TARGET_CALORIE = (By.XPATH, "//*[@id='app-content']/div/div/div/div/section/section[1]/div/table/tbody[1]/tr["
                                 "1]/td[2]")
     SYNC_BUTTON = (By.XPATH, "//*[@id='app-content']/div/div/div/div/section/div/div[1]/div[2]/div/button")
-    MENU_BUTTON = (By.XPATH,"//button[@title='Open Menu']")
+    MENU_BUTTON = (By.XPATH, "//button[@title='Open Menu']")
+
     def __init__(self, driver):
         super().__init__(driver)
         self.init_elements()
@@ -38,8 +40,9 @@ class PlannerPage(BasePage):
         self.calories = self._driver.find_element(*self.CALORIES).text
 
     def sync_page(self):
-        WebDriverWait(self._driver, 10).until(EC.element_to_be_clickable(self.SYNC_BUTTON)).click()
-        time.sleep(2)
+        if len(self._driver.find_elements(*self.SYNC_BUTTON))> 0:
+            WebDriverWait(self._driver, 10).until(EC.element_to_be_clickable(self.SYNC_BUTTON)).click()
+            time.sleep(2)
 
     def init_edit_day_button(self):
         self.wait_for_element_in_page_by_xpath(self.EDIT_DAY_BUTTON[1])
@@ -101,5 +104,6 @@ class PlannerPage(BasePage):
     def get_target_cals(self):
         self.init_calories()
         return int(self.target_calorie)
+
     def go_to_menu(self):
         self.menu_button.click()

@@ -3,12 +3,12 @@
   "hub": "http://localhost:4444/wd/hub",
   "url": "https://www.eatthismuch.com/app/planner/today",
   "grid": false,
-  "parallel": false,
+  "parallel": true,
   "serial": true,
   "browser": "chrome",
   "platform": "windows",
   "browser_types": [
-    "chrome"
+    "chrome", "firefox"
 
   ],
   "api_url": "https://www.eatthismuch.com",

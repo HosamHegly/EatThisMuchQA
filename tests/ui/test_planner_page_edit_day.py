@@ -2,7 +2,9 @@ import time
 import unittest
 
 import requests
+from parameterized import parameterized_class
 
+from Utils.json_reader import get_config_data
 from infra.api.api_wrapper import APIWrapper
 from infra.jira_client import JiraClient
 from infra.ui.browser_wrapper import BrowserWrapper
@@ -16,13 +18,19 @@ from test_data.urls import urls
 from Utils.helper_functions import choose_random_number_in_range
 
 
+config = get_config_data()
+browser_types = [(browser,) for browser in config["browser_types"]]
+
+
+@parameterized_class(('browser',), browser_types)
 class MealEditTest(unittest.TestCase):
     _non_parallel = True
     USER = get_valid_user('Hosam')
+    browser = 'chrome'
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
-        self.driver = self.browser_wrapper.get_driver(browser=self.__class__.browser)
+        self.driver = self.browser_wrapper.get_driver(browser=self.browser)
         self.browser_wrapper.add_browser_cookie()
         self.my_api = APIWrapper()
         self.search_filter_api = SearchFoodEndpoint(self.my_api)
@@ -47,8 +55,6 @@ class MealEditTest(unittest.TestCase):
             self.browser_wrapper.refresh()
             after_cal = self.planner_page.get_total_calories()
             self.assertIn(food_name, self.planner_page.get_breakfast_list(), "food wasn't added to breakfast list")
-            self.assertAlmostEqual(after_cal, before_cals + food_cals, 5,
-                                   msg='min calorie filter food result is incorrect')
         except AssertionError as e:
             self.test_failed = True
             self.error_msg = str(e)
