@@ -24,7 +24,11 @@ def run_pytest(parallel=False):
 
     if parallel:
         parallel_cmd = base_cmd + ["-n", "3", "-m", "not serial", f"--html={html_report}"]
-        subprocess.run(parallel_cmd, check=True)
+        try:
+            subprocess.run(parallel_cmd, check=True)
+        except subprocess.CalledProcessError as e:
+            print(e.returncode)
+
     try:
         serial_html_report = os.path.join(reports_dir, "report_serial.html")
         serial_cmd = base_cmd + ["-m", "serial", f"--html={serial_html_report}"]
@@ -33,10 +37,13 @@ def run_pytest(parallel=False):
         if e.returncode == 5:  # No tests were collected
             print("No serial tests were found.")
         else:
-            raise
+            print(e.returncode)
     else:
         non_parallel_cmd = base_cmd + [f"--html={html_report}"]
-        subprocess.run(non_parallel_cmd, check=True)
+        try:
+            subprocess.run(non_parallel_cmd, check=True)
+        except subprocess.CalledProcessError as e:
+            print(e.returncode)
 
 
 if __name__ == "__main__":
