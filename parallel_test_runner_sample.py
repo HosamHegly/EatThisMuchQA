@@ -2,33 +2,46 @@ import os
 import subprocess
 from Utils.json_reader import get_config_data
 
-pytest_executable = "venv/Scripts/pytest"
+import os
+import subprocess
+from Utils.json_reader import get_config_data
 
 
 def run_pytest(parallel=False):
+    # Load configuration
+    config = get_config_data()
+
     # Directory where all tests are located
     ui_tests_path = "tests/api"
-
+    # Reports directory
     reports_dir = "reports"
-
-    cmd = [pytest_executable, ui_tests_path, f"--html={reports_dir}/report.html"]
-
-    if parallel:
-        # Runs all tests except those marked as 'serial'
-        cmd.extend(["-n", "3", "-m", "not serial"])
-        subprocess.run(cmd)
-
-        cmd = [pytest_executable, ui_tests_path, "-m", "serial", f"--html={reports_dir}/report_serial.html"]
-    else:
-        cmd = [pytest_executable, ui_tests_path, f"--html={reports_dir}/report_serial.html"]
-
+    # Ensure reports directory exists
     os.makedirs(reports_dir, exist_ok=True)
 
-    # Execute the pytest command
-    subprocess.run(cmd)
+    # Adjust the path to your virtual environment's Python executable as needed
+    python_path = os.path.join("venv", "Scripts", "python.exe")
+
+    # Base command using the virtual environment's Python
+    base_cmd = [python_path, "-m", "pytest", ui_tests_path]
+
+    # HTML report file path
+    html_report = os.path.join(reports_dir, "report.html")
+
+    # Command for parallel execution
+    if parallel:
+        parallel_cmd = base_cmd + ["-n", "3", "-m", "not serial", f"--html={html_report}"]
+        subprocess.run(parallel_cmd, check=True)
+
+        # Command for running serial tests
+        serial_html_report = os.path.join(reports_dir, "report_serial.html")
+        serial_cmd = base_cmd + ["-m", "serial", f"--html={serial_html_report}"]
+        subprocess.run(serial_cmd, check=True)
+    else:
+        # Command for non-parallel execution (all tests, including serial)
+        non_parallel_cmd = base_cmd + [f"--html={html_report}"]
+        subprocess.run(non_parallel_cmd, check=True)
 
 
 if __name__ == "__main__":
-    config = get_config_data()
-    is_parallel = config.get("parallel", False)
+    is_parallel = get_config_data().get("parallel", False)
     run_pytest(parallel=is_parallel)
