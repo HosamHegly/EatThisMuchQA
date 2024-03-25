@@ -1,5 +1,4 @@
 import subprocess
-
 from Utils.json_reader import get_config_data
 
 
@@ -26,9 +25,7 @@ def run_pytest(parallel=False):
     subprocess.run(cmd)
 
 
-
 if __name__ == "__main__":
     config = get_config_data()
     is_parallel = config.get("parallel", False)
-    excluded_tag = "NutritionalTargetEndToEndTest"
     run_pytest(parallel=is_parallel)
