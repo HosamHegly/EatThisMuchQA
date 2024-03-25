@@ -6,6 +6,7 @@ import config
 import json
 from Utils.json_reader import get_config_data
 
+
 # Load environment variables
 
 def connect_jira():
@@ -33,4 +34,3 @@ class JiraClient:
         }
         new_issue = self.auth_jira.create_issue(fields=issue_dict)
         return new_issue.key
-
