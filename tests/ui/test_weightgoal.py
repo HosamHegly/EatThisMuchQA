@@ -2,6 +2,9 @@ import time
 
 import unittest
 
+from parameterized import parameterized_class
+
+from Utils.json_reader import get_config_data
 from infra.api.api_wrapper import APIWrapper
 from infra.jira_client import JiraClient
 from infra.ui.browser_wrapper import BrowserWrapper
@@ -12,12 +15,17 @@ from logic.ui.weight_goal_page import WeightGoalPage
 from test_data.urls import urls
 
 
-class WeightGoalTest(unittest.TestCase):
+config = get_config_data()
+browser_types = [(browser,) for browser in config["browser_types"]]
 
+
+@parameterized_class(('browser',), browser_types)
+class WeightGoalTest(unittest.TestCase):
+    browser = 'chrome'
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
-        self.driver = self.browser_wrapper.get_driver(browser=self.__class__.browser)
+        self.driver = self.browser_wrapper.get_driver(browser=self.browser)
         self.browser_wrapper.add_browser_cookie()
         self.browser_wrapper.goto(urls['Weight_Goal'])
         self.my_api = APIWrapper()

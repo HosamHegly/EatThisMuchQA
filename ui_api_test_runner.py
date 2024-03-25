@@ -6,10 +6,10 @@ from concurrent.futures import ThreadPoolExecutor, wait
 from os.path import dirname, join
 
 from tests.api.test_food_search_filter import FoodSearchTest
-from tests.ui.test_end_to_end import NutritionalTargetEndToEndTest
+from tests.ui.test_change_target_settings import NutritionalTargetEndToEndTest
 from tests.ui.test_nuritional_target import TestNutritionalTarget
 from tests.ui.test_planner_page_edit_day import MealEditTest
-from tests.ui.test_weightgoal_test import WeightGoalTest
+from tests.ui.test_weightgoalpy import WeightGoalTest
 
 ui_test_cases = [
      NutritionalTargetEndToEndTest]

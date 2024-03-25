@@ -1,23 +1,38 @@
 import unittest
 import time
 
+import pytest
+from parameterized import parameterized_class
+from Utils.json_reader import get_config_data
+from infra.api.api_wrapper import APIWrapper
 from infra.jira_client import JiraClient
 from infra.ui.browser_wrapper import BrowserWrapper
+from logic.api.meal_settings_enpoint import MealSettingsEndPoint
+from logic.api.nutritional_target_endpoint import NutritionalTargetEndPoint
 from logic.ui.meal_settings import MealSettings
 from logic.ui.menu import Menu
 from logic.ui.planner_page import PlannerPage
 from logic.ui.nutritional_target_page import NutritionalTargetPage
 from Utils.helper_functions import generate_random_5_letter_name, choose_random_number_in_range
+from test_data.calorie_target import valid_target
 from test_data.urls import urls
 
+config = get_config_data()
+browser_types = [(browser,) for browser in config["browser_types"]]
 
-class NutritionalTargetEndToEndTest(unittest.TestCase):
+
+@pytest.mark.serial
+@parameterized_class(('browser',), [
+    ('chrome',),
+])
+class TestNutritionalTargetSetting(unittest.TestCase):
+    browser = 'chrome'
     _non_parallel = True
-
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
-        self.driver = self.browser_wrapper.get_driver(browser=self.__class__.browser)
+        self.my_api = APIWrapper()
+        self.driver = self.browser_wrapper.get_driver(browser=self.browser)
         self.browser_wrapper.add_browser_cookie()
         self.browser_wrapper.goto(urls['Planner_Page'])
         self.planner_page = PlannerPage(self.driver)
@@ -62,6 +77,25 @@ class NutritionalTargetEndToEndTest(unittest.TestCase):
             self.error_msg = str(e)
             raise
 
+    def test_nutrional_target_change_setting(self):
+        try:
+
+            self.nutritional_target_api = NutritionalTargetEndPoint(self.my_api)
+            self.meal_setting_api = MealSettingsEndPoint(self.my_api)
+            response = self.nutritional_target_api.create_nutritional_target(body=valid_target[1]).json()
+            self.target_id = response['data']['id']
+            self.meal_setting_api.change_nutritional_target(target_id=self.target_id)
+            self.browser_wrapper.refresh()
+            self.planner_page.sync_page()
+            target_cals = self.planner_page.get_target_cals()
+            self.nutritional_target_api.delete_nutritional_target(target_id=self.target_id)
+            self.assertEqual(target_cals, valid_target[1]['calories'],
+                             msg="calorie target value didn't change in main page when changed in settings")
+        except AssertionError as e:
+            self.test_failed = True
+            self.error_msg = str(e)
+            raise
+
     def tearDown(self):
         self.browser_wrapper.close_browser()
 
@@ -75,4 +109,3 @@ class NutritionalTargetEndToEndTest(unittest.TestCase):
                 print(f"Jira issue created: {issue_key}")
             except Exception as e:
                 print(f"Failed to create Jira issue: {e}")
-
