@@ -1,4 +1,5 @@
 import os
+import shutil
 import subprocess
 from Utils.json_reader import get_config_data
 
@@ -29,7 +30,9 @@ def run_pytest(parallel=False):
 
     # Generate the allure report after all tests have run
     allure_report_dir = "allure-report"
-    subprocess.run(["allure", "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True)
+    subprocess.run(["allure", "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True, shell=True)
+    shutil.rmtree(reports_dir)
+
 
 
 if __name__ == "__main__":
