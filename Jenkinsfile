@@ -39,7 +39,6 @@ pipeline {
         stage('Setup Selenium Server nodes') {
             steps {
                 echo 'Setting up Selenium server nodes...'
-                bat "java -jar selenium-server-4.17.0.jar node --port 5555 --selenium-manager true"
                 bat "start /b java -jar selenium-server-4.17.0.jar node --port 5555 --selenium-manager true"
                 bat 'ping 127.0.0.1 -n 11 > nul'
             }
