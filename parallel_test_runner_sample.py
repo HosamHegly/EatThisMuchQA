@@ -3,13 +3,13 @@ import shutil
 import subprocess
 from Utils.json_reader import get_config_data
 
+config = get_config_data()
+allure_path = "C:/npm/allure.cmd"
+ui_tests_path = "tests/api"
+reports_dir = "allure-results"
+
 
 def run_pytest(parallel=False):
-    # Load configuration
-    config = get_config_data()
-
-    ui_tests_path = "tests/api"
-    reports_dir = "allure-results"
     os.makedirs(reports_dir, exist_ok=True)
 
     python_path = os.path.join("venv", "Scripts", "python.exe")
@@ -30,9 +30,8 @@ def run_pytest(parallel=False):
 
     # Generate the allure report after all tests have run
     allure_report_dir = "allure-report"
-    subprocess.run(["allure", "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True, shell=True)
+    subprocess.run([allure_path, "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True, shell=True)
     shutil.rmtree(reports_dir)
-
 
 
 if __name__ == "__main__":
