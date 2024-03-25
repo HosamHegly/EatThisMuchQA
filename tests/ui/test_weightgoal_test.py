@@ -13,9 +13,7 @@ from test_data.urls import urls
 
 
 class WeightGoalTest(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.jira_client = JiraClient()
+
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
@@ -24,6 +22,7 @@ class WeightGoalTest(unittest.TestCase):
         self.browser_wrapper.goto(urls['Weight_Goal'])
         self.my_api = APIWrapper()
         self.weight_goals_page = WeightGoalPage(self.driver)
+        self.jira_client = JiraClient()
         self.test_failed = False
 
     def test_invalid_weight_input_negative(self):
@@ -61,14 +60,15 @@ class WeightGoalTest(unittest.TestCase):
             raise
 
     def tearDown(self):
+        self.browser_wrapper.close_browser()
+
         self.test_name = self.id().split('.')[-1]
         if self.test_failed:
-            summary = f"Test failed: {self.test_name}"
-            description = self.error_msg
+            summary = f"Test failed: {self.test_name} "
+            description = f"{self.error_msg} browser {self.__class__.browser}"
             try:
                 issue_key = self.jira_client.create_issue(summary=summary, description=description,
                                                           issue_type='Bug', project_key='NEW')
                 print(f"Jira issue created: {issue_key}")
             except Exception as e:
                 print(f"Failed to create Jira issue: {e}")
-        self.browser_wrapper.close_browser()

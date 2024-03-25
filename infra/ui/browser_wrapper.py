@@ -35,14 +35,7 @@ class BrowserWrapper:
 
     def close_browser(self):
         self.driver.close()
-        self.driver.stop()
-
-    def is_parallel(self):
-        return self.parallel
-
-    def close_browser(self):
-        if self.driver:
-            self.driver.quit()
+        self.driver.quit()
 
     def refresh(self):
         self.driver.refresh()
@@ -91,6 +84,6 @@ class BrowserWrapper:
 
     def add_common_options(self, options):
 
-        #options.add_argument("--headless")
+        # options.add_argument("--headless")
         options.add_argument("--no-sandbox")
         options.add_argument("--disable-dev-shm-usage")

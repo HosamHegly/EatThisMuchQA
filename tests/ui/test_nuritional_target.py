@@ -1,11 +1,13 @@
-import time
 import unittest
+
+import pytest
+import HtmlTestRunner
+
 from infra.api.api_wrapper import APIWrapper
 from infra.jira_client import JiraClient
 from infra.ui.browser_wrapper import BrowserWrapper
 from logic.ui.nutritional_target_page import NutritionalTargetPage
 from logic.ui.planner_page import PlannerPage
-from test_data.calorie_target import *
 from logic.api.nutritional_target_endpoint import NutritionalTargetEndPoint
 from test_data.calorie_target import valid_target, invalid_target
 from test_data.urls import urls
@@ -13,9 +15,6 @@ from logic.api.meal_settings_enpoint import MealSettingsEndPoint
 
 
 class TestNutritionalTarget(unittest.TestCase):
-    @classmethod
-    def setUpClass(cls):
-        cls.jira_client = JiraClient()
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
@@ -24,6 +23,8 @@ class TestNutritionalTarget(unittest.TestCase):
         self.my_api = APIWrapper()
         self.nutritional_target = NutritionalTargetEndPoint(self.my_api)
         self.meal_setting = MealSettingsEndPoint(self.my_api)
+        self.jira_client = JiraClient()
+
         self.test_failed = False
 
     def test_valid_nutrional_target_creation(self):
@@ -72,15 +73,17 @@ class TestNutritionalTarget(unittest.TestCase):
             raise
 
     def tearDown(self):
+        self.browser_wrapper.close_browser()
+
+        self.nutritional_target.delete_nutritional_target(target_id=self.target_id)
+
         self.test_name = self.id().split('.')[-1]
         if self.test_failed:
             summary = f"Test failed: {self.test_name}"
-            description = self.error_msg
+            description = f"{self.error_msg} browser {self.__class__.browser}"
             try:
                 issue_key = self.jira_client.create_issue(summary=summary, description=description,
                                                           issue_type='Bug', project_key='NEW')
                 print(f"Jira issue created: {issue_key}")
             except Exception as e:
                 print(f"Failed to create Jira issue: {e}")
-        self.nutritional_target.delete_nutritional_target(target_id=self.target_id)
-        self.browser_wrapper.close_browser()

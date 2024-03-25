@@ -20,10 +20,6 @@ class MealEditTest(unittest.TestCase):
     _non_parallel = True
     USER = get_valid_user('Hosam')
 
-    @classmethod
-    def setUpClass(cls):
-        cls.jira_client = JiraClient()
-
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
         self.driver = self.browser_wrapper.get_driver(browser=self.__class__.browser)
@@ -50,7 +46,6 @@ class MealEditTest(unittest.TestCase):
             self.food_id = food_addition_response['data']['id']
             self.browser_wrapper.refresh()
             after_cal = self.planner_page.get_total_calories()
-            self.food_addition_api.remove_food_from_breakfast(self.food_id)
             self.assertIn(food_name, self.planner_page.get_breakfast_list(), "food wasn't added to breakfast list")
             self.assertAlmostEqual(after_cal, before_cals + food_cals, 5,
                                    msg='min calorie filter food result is incorrect')
@@ -60,14 +55,16 @@ class MealEditTest(unittest.TestCase):
             raise
 
     def tearDown(self):
+        self.browser_wrapper.close_browser()
+
+        self.food_addition_api.remove_food_from_breakfast(self.food_id)
         self.test_name = self.id().split('.')[-1]
         if self.test_failed:
             summary = f"Test failed: {self.test_name}"
-            description = self.error_msg
+            description = f"{self.error_msg} browser {self.__class__.browser}"
             try:
                 issue_key = self.jira_client.create_issue(summary=summary, description=description,
                                                           issue_type='Bug', project_key='NEW')
                 print(f"Jira issue created: {issue_key}")
             except Exception as e:
                 print(f"Failed to create Jira issue: {e}")
-        self.browser_wrapper.close_browser()

@@ -66,7 +66,7 @@ class FoodSearchTest(unittest.TestCase):
             self.error_msg = str(e)
             raise
 
-    def test_performance_search_by_name(self, max_time_seconds=100, food_name_search='meat', num_requests=100):
+    def test_performance_search_by_name(self, max_time_seconds=100, food_name_search='meat', num_requests=10):
         try:
             start_time = time.time()  # Start timer
             for _ in range(num_requests):

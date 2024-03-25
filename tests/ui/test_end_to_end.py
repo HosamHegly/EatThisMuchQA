@@ -14,8 +14,6 @@ from test_data.urls import urls
 class NutritionalTargetEndToEndTest(unittest.TestCase):
     _non_parallel = True
 
-    def setUpClass(cls):
-        cls.jira_client = JiraClient()
 
     def setUp(self):
         self.browser_wrapper = BrowserWrapper()
@@ -23,6 +21,7 @@ class NutritionalTargetEndToEndTest(unittest.TestCase):
         self.browser_wrapper.add_browser_cookie()
         self.browser_wrapper.goto(urls['Planner_Page'])
         self.planner_page = PlannerPage(self.driver)
+        self.jira_client = JiraClient()
         self.test_failed = False
 
     def test_create_target_and_change_meal_settings_to_target(self):
@@ -64,10 +63,12 @@ class NutritionalTargetEndToEndTest(unittest.TestCase):
             raise
 
     def tearDown(self):
+        self.browser_wrapper.close_browser()
+
         self.test_name = self.id().split('.')[-1]
         if self.test_failed:
             summary = f"Test failed: {self.test_name}"
-            description = self.error_msg
+            description = f"{self.error_msg} browser {self.__class__.browser}"
             try:
                 issue_key = self.jira_client.create_issue(summary=summary, description=description, issue_type='Bug',
                                                           project_key='NEW')
@@ -75,4 +76,3 @@ class NutritionalTargetEndToEndTest(unittest.TestCase):
             except Exception as e:
                 print(f"Failed to create Jira issue: {e}")
 
-        self.browser_wrapper.close_browser()
