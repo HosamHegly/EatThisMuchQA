@@ -54,7 +54,7 @@ pipeline {
         stage(' Running Tests') {
             steps {
                 echo 'Testing..'
-                bat "venv\\Scripts\\python.exe ui_api_test_runner.py"
+                bat "venv\\Scripts\\python.exe parallel_test_runner_sample.py"
             }
             post {
                 success {
@@ -77,6 +77,18 @@ pipeline {
                 failure {
                     slackSend (color: 'danger', message: "FAILURE: Deploy stage failed.")
                 }
+            }
+        }
+         stage('Publish Report') {
+            steps {
+                publishHTML(target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'reports',
+                    reportFiles: 'report.html',
+                    reportName: 'HTML Report'
+                ])
             }
         }
     }
