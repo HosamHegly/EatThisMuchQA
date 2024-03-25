@@ -4,6 +4,7 @@ import unittest
 import requests
 
 from infra.api.api_wrapper import APIWrapper
+from infra.jira_client import JiraClient
 from infra.ui.browser_wrapper import BrowserWrapper
 from logic.api.food_addition_endpoint import FoodAdditionEndpoint
 from logic.api.food_endpoint import FoodEndPoint
@@ -29,23 +30,41 @@ class MealEditTest(unittest.TestCase):
         self.browser_wrapper.goto(urls['Planner_Page'])
         self.planner_page = PlannerPage(self.driver)
         self.food = FoodEndPoint(self.my_api)
+        self.jira_client = JiraClient()
+        self.test_failed = False
 
     def test_food_addition(self):
-        before_cals = self.planner_page.get_total_calories()
-        response = self.search_filter_api.search_by_cals(min_cals=300, max_cals=1000).json()
-        food_api_list = response['data']['object_resource_uris']
-        food_api = food_api_list[choose_random_number_in_range(0, len(food_api_list))]
-        food_response = self.food.get_food_details(food_api).json()
-        food_name = food_response['data']['food_name'].lower()
-        food_cals = int(food_response['data']['calories'])
-        food_addition_response = self.food_addition_api.add_food_to_breakfast(food_api=food_api).json()
-        self.food_id = food_addition_response['data']['id']
-        self.browser_wrapper.refresh()
-        after_cal = self.planner_page.get_total_calories()
-        self.food_addition_api.remove_food_from_breakfast(self.food_id)
-        self.assertIn(food_name, self.planner_page.get_breakfast_list(), "food wasn't added to breakfast list")
-        self.assertAlmostEqual(after_cal, before_cals + food_cals, 5,
-                                msg='min calorie filter food result is incorrect')
+        try:
+            before_cals = self.planner_page.get_total_calories()
+            response = self.search_filter_api.search_by_cals(min_cals=300, max_cals=1000).json()
+            food_api_list = response['data']['object_resource_uris']
+            food_api = food_api_list[choose_random_number_in_range(0, len(food_api_list))]
+            food_response = self.food.get_food_details(food_api).json()
+            food_name = food_response['data']['food_name'].lower()
+            food_cals = int(food_response['data']['calories'])
+            food_addition_response = self.food_addition_api.add_food_to_breakfast(food_api=food_api).json()
+            self.food_id = food_addition_response['data']['id']
+            self.browser_wrapper.refresh()
+            after_cal = self.planner_page.get_total_calories()
+            self.assertIn(food_name, self.planner_page.get_breakfast_list(), "food wasn't added to breakfast list")
+            self.assertAlmostEqual(after_cal, before_cals + food_cals, 5,
+                                   msg='min calorie filter food result is incorrect')
+        except AssertionError as e:
+            self.test_failed = True
+            self.error_msg = str(e)
+            raise
 
     def tearDown(self):
         self.browser_wrapper.close_browser()
+
+        self.food_addition_api.remove_food_from_breakfast(self.food_id)
+        self.test_name = self.id().split('.')[-1]
+        if self.test_failed:
+            summary = f"Test failed: {self.test_name}"
+            description = f"{self.error_msg} browser {self.__class__.browser}"
+            try:
+                issue_key = self.jira_client.create_issue(summary=summary, description=description,
+                                                          issue_type='Bug', project_key='NEW')
+                print(f"Jira issue created: {issue_key}")
+            except Exception as e:
+                print(f"Failed to create Jira issue: {e}")

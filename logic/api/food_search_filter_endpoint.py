@@ -16,7 +16,7 @@ class SearchFoodEndpoint:
             return response
         else:
             # Handle errors
-            error_message = f"Failed to create nutritional target: {response.status_code} {response.text}"
+            error_message = f"Failed search by cals request: {response.status_code}"
             # Log the error, raise an exception, or handle it as needed
             raise Exception(error_message)
 
@@ -27,6 +27,6 @@ class SearchFoodEndpoint:
             return response
         else:
             # Handle errors
-            error_message = f"Failed to create nutritional target: {response.status_code} {response.text}"
+            error_message = f"Failed search by name request: {response.status_code}"
             # Log the error, raise an exception, or handle it as needed
             raise Exception(error_message)

@@ -11,11 +11,10 @@ from Utils.json_reader import get_config_data
 def connect_jira():
     from pathlib import Path
 
-    env_path = Path(__file__).resolve().parent.parent / 'config' / '.env'
-    load_dotenv(env_path)
+    load_dotenv()
     config = get_config_data()
-    token = os.getenv("token")
-    jira_url = config["jira-server"]
+    token = os.getenv("TOKEN")
+    jira_url = config["jira_server"]
     jira_user = config["jira-user"]
 
     return JIRA(basic_auth=(jira_user, token), options={"server": jira_url})

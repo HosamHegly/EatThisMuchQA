@@ -13,7 +13,7 @@ class FoodAdditionEndpoint:
         body = {
             "eaten": False,
             "food": food_api,
-            "meal": "/api/v1/meal/558685657/",
+            "meal": "/api/v1/meal/558894477/",
             "scaled_amount": 1,
             "units": 1,
             "user_chosen": True

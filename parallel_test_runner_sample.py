@@ -1,18 +1,14 @@
 # test_runner.py
-import json
 import unittest
 from concurrent.futures import ThreadPoolExecutor
 from os.path import dirname, join
-
+from Utils.json_reader import get_config_data
 from tests.ui.test_end_to_end import NutritionalTargetEndToEndTest
-from tests.ui.test_planner_page_edit_day import MealEditTest
-from tests.ui.test_nuritional_target import TestMealSetting
-from tests.ui.test_weightgoal_test import WeightGoalTest
+import HtmlTestRunner
 
-test_cases = [
-    NutritionalTargetEndToEndTest]
-serial_cases = []
+test_cases = [NutritionalTargetEndToEndTest]
 parallel_cases = []
+serial_cases = []
 
 
 def get_filename(filename):
@@ -49,11 +45,19 @@ def dived_tests_parallel_non_parallel(test_cases):
 
 
 if __name__ == "__main__":
-    filename = get_filename("config/config.json")
-    with open(filename, 'r') as file:
-        config = json.load(file)
+    config = get_config_data()
+
     is_parallel = config["parallel"]
     is_serial = config["serial"]
     browsers = config["browser_types"]
+    if is_parallel:
+        dived_tests_parallel_non_parallel(test_cases)
+        run_tests_for_browser_parallel(browsers, parallel_cases)
+        run_tests_for_browser_serial(browsers, serial_cases)
 
-    run_tests_for_browser_serial(browsers, test_cases)
+    elif is_serial:
+        run_tests_for_browser_serial(browsers, test_cases)
+    else:
+        browser = config["browser"]
+        for test in test_cases:
+            run_tests_for_browser(browser, test)

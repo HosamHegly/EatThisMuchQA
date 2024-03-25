@@ -1,16 +1,18 @@
-# test_runner.py
 import json
-from concurrent.futures import ThreadPoolExecutor
+import unittest
+from concurrent.futures import ThreadPoolExecutor, wait
+import concurrent.futures
 from os.path import dirname, join
 
-from tests.ui_tests.login_page_test import LoginPageTest
-from tests.ui_tests.planner_page_edit_day_test import MealEditTest
-from tests.ui_tests.search_food_popup_test import FoodSearchPopupTest
-from tests.ui_tests.weight_goal_test import WeightGoalTest
-from tests.ui_tests.nutritional_target_input_values_test import *  # Import the tests case
+from tests.api.test_food_search_filter import FoodSearchTest
+from tests.ui.test_end_to_end import NutritionalTargetEndToEndTest
+from tests.ui.test_nuritional_target import TestNutritionalTarget
+from tests.ui.test_planner_page_edit_day import MealEditTest
+from tests.ui.test_weightgoal_test import WeightGoalTest
 
-test_cases = [LoginPageTest, MealEditTest, FoodSearchPopupTest, WeightGoalTest,
-              NutritionalTargetsValuesTest]
+ui_test_cases = [MealEditTest, WeightGoalTest,
+                 TestNutritionalTarget, NutritionalTargetEndToEndTest]
+api_test_cases = [FoodSearchTest]
 serial_cases = []
 parallel_cases = []
 
@@ -34,10 +36,12 @@ def run_tests_for_browser_serial(browsers, serial_tests):
 
 
 def run_tests_for_browser_parallel(browsers, parallel_tests):
-    tasks = [(browser, test_case) for browser in browsers for test_case in parallel_tests]
+    for browser in browsers:
+        tasks = [test_case for test_case in parallel_tests]
 
-    with ThreadPoolExecutor(max_workers=4) as executor:
-        futures = [executor.submit(run_tests_for_browser, browser, test_case) for browser, test_case in tasks]
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            futures = [executor.submit(run_tests_for_browser, browser, test_case) for test_case in tasks]
+            wait(futures)
 
 
 def dived_tests_parallel_non_parallel(test_cases):
@@ -48,6 +52,54 @@ def dived_tests_parallel_non_parallel(test_cases):
             parallel_cases.append(test_case)
 
 
+def run_api_tests_in_serial(selected_tests):
+    loader = unittest.TestLoader()
+    suite = unittest.TestSuite()
+
+    for test in selected_tests:
+        suite.addTests(loader.loadTestsFromModule(test))
+
+    runner = unittest.TextTestRunner()
+    runner.run(suite)
+
+
+def run_api_tests_in_parallel(selected_tests):
+    test_cases = get_individual_api_test_cases(selected_tests)
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
+        future_to_test_case = {
+            executor.submit(run_individual_api_test, test_case): test_case for test_case in test_cases
+        }
+
+        for future in concurrent.futures.as_completed(future_to_test_case):
+            test_case = future_to_test_case[future]
+            try:
+                future.result()
+            except Exception as exc:
+                print('%r generated an exception: %s' % (test_case, exc))
+
+
+def run_individual_api_test(test_case):
+    try:
+        suite = unittest.TestSuite([test_case])
+        runner = unittest.TextTestRunner()
+        runner.run(suite)
+    except Exception as e:
+        print(f"Error running test case {test_case}: {e}")
+
+
+def get_individual_api_test_cases(selected_tests):
+    test_cases = []
+    for test in selected_tests:
+        module_name = 'tests.api_tests.' + test
+        module = __import__(module_name, fromlist=[''])
+        loader = unittest.TestLoader()
+        suite = loader.loadTestsFromModule(module)
+        for test_case in suite:
+            for test in test_case:
+                test_cases.append(test)
+    return test_cases
+
+
 if __name__ == "__main__":
     filename = get_filename("config/config.json")
     with open(filename, 'r') as file:
@@ -56,13 +108,13 @@ if __name__ == "__main__":
     is_serial = config["serial"]
     browsers = config["browser_types"]
     if is_parallel:
-        dived_tests_parallel_non_parallel(test_cases)
+        dived_tests_parallel_non_parallel(ui_test_cases)
         run_tests_for_browser_parallel(browsers, parallel_cases)
         run_tests_for_browser_serial(browsers, serial_cases)
+        run_api_tests_in_parallel(api_test_cases)
+
+
 
     elif is_serial:
-        run_tests_for_browser_serial(browsers, test_cases)
-    else:
-        browser = config["browser"]
-        for test in test_cases:
-            run_tests_for_browser(browser, test)
+        run_tests_for_browser_serial(browsers, ui_test_cases)
+        run_api_tests_in_serial(api_test_cases)

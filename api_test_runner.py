@@ -3,12 +3,11 @@ import unittest
 import inquirer
 from Utils.json_reader import get_config_data
 import concurrent.futures
-from tests.api_tests.performance_test import PerformanceTest
 
 tests = [PerformanceTest]
 
 
-def run_tests_in_serial(selected_tests):
+def run_api_tests_in_serial(selected_tests):
     loader = unittest.TestLoader()
     suite = unittest.TestSuite()
 
@@ -19,11 +18,11 @@ def run_tests_in_serial(selected_tests):
     runner.run(suite)
 
 
-def run_tests_in_parallel(selected_tests):
-    test_cases = get_individual_test_cases(selected_tests)
+def run_api_tests_in_parallel(selected_tests):
+    test_cases = get_individual_api_test_cases(selected_tests)
     with concurrent.futures.ThreadPoolExecutor(max_workers=4) as executor:
         future_to_test_case = {
-            executor.submit(run_individual_test, test_case): test_case for test_case in test_cases
+            executor.submit(run_api_individual_test, test_case): test_case for test_case in test_cases
         }
 
         for future in concurrent.futures.as_completed(future_to_test_case):
@@ -34,7 +33,7 @@ def run_tests_in_parallel(selected_tests):
                 print('%r generated an exception: %s' % (test_case, exc))
 
 
-def run_individual_test(test_case):
+def run_individual_api_test(test_case):
     try:
         suite = unittest.TestSuite([test_case])
         runner = unittest.TextTestRunner()
@@ -43,7 +42,7 @@ def run_individual_test(test_case):
         print(f"Error running test case {test_case}: {e}")
 
 
-def get_individual_test_cases(selected_tests):
+def get_individual_api_test_cases(selected_tests):
     test_cases = []
     for test in selected_tests:
         module_name = 'tests.api_tests.' + test
@@ -79,6 +78,6 @@ if __name__ == "__main__":
     is_serial = config["serial"]
 
     if is_parallel:
-        run_tests_in_parallel(tests)
+        run_api_tests_in_parallel(tests)
     else:
-        run_tests_in_serial(tests)
+        run_api_tests_in_serial(tests)

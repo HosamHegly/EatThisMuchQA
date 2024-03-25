@@ -62,7 +62,8 @@ class CreateNutritionalTargetPage(BasePage):
         self.save_button.click()
 
     def clear_all_inputs(self):
-        self.fiber.clear()
+        WebDriverWait(self._driver, 10).until(
+            EC.element_to_be_clickable(self.FIBER)).clear()
         self.calories.clear()
         self.min_carbs.clear()
         self.min_fats.clear()
