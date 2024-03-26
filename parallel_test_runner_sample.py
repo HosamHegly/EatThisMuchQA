@@ -28,10 +28,8 @@ def run_pytest(parallel=False):
     except subprocess.CalledProcessError as e:
         print(f"Error running serial tests: {e}")
 
-    # Generate the allure report after all tests have run
     allure_report_dir = "allure-report"
-    subprocess.run([allure_path, "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True, shell=True)
-    shutil.rmtree(reports_dir)
+    #subprocess.run([allure_path, "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True, shell=True)
 
 
 if __name__ == "__main__":

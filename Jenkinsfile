@@ -79,18 +79,16 @@ pipeline {
                 }
             }
         }
-         stage('Publish Report') {
+        stage('Publish Allure Report') {
             steps {
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'allure-report',
-                    reportFiles: 'index.html',
-                    reportName: 'HTML Report'
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    results: [[path: 'allure-results']]
                 ])
             }
         }
+
     }
     post {
         always {
