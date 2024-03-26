@@ -79,17 +79,11 @@ pipeline {
             }
         }
          stage('Publish Report') {
-            steps {
-                publishHTML(target: [
-                    allowMissing: false,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true,
-                    reportDir: 'reports',
-                    reportFiles: 'report.html',
-                    reportName: 'HTML Report'
-                ])
-            }
-        }
+             steps {
+                bat 'powershell Compress-Archive -Path reports/* -DestinationPath allure-report.zip'
+                archiveArtifacts artifacts: 'allure-report.zip', onlyIfSuccessful: true
+    }
+}
     }
     post {
         always {
