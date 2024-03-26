@@ -54,6 +54,7 @@ class MealEditTest(unittest.TestCase):
             self.food_id = food_addition_response['data']['id']
             self.browser_wrapper.refresh()
             after_cal = self.planner_page.get_total_calories()
+            time.sleep(2)
             self.assertIn(food_name, self.planner_page.get_breakfast_list(), "food wasn't added to breakfast list")
         except AssertionError as e:
             self.test_failed = True
