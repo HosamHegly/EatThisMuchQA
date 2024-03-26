@@ -81,7 +81,7 @@ pipeline {
          stage('Publish Report') {
              steps {
                 bat 'powershell Compress-Archive -Path reports/* -DestinationPath report.zip'
-                archiveArtifacts artifacts: 'allure-report.zip', onlyIfSuccessful: true
+                archiveArtifacts artifacts: 'report.zip', onlyIfSuccessful: true
     }
 }
     }
