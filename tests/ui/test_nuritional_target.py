@@ -1,3 +1,4 @@
+import time
 import unittest
 
 from parameterized import parameterized_class
@@ -42,6 +43,7 @@ class TestNutritionalTarget(unittest.TestCase):
 
             self.browser_wrapper.goto(urls['Nutritional_Target'])
             self.nutritional_targets_page = NutritionalTargetPage(self.driver)
+            time.sleep(2)
             self.assertIn(response['data']['title'], self.nutritional_targets_page.get_target_titles(),
                           "nutritional target wasn't added to the target page")
         except AssertionError as e:
@@ -60,6 +62,7 @@ class TestNutritionalTarget(unittest.TestCase):
 
             self.browser_wrapper.goto(urls['Nutritional_Target'])
             self.nutritional_targets_page = NutritionalTargetPage(self.driver)
+            time.sleep(2)
             self.assertNotIn(response['data']['title'], self.nutritional_targets_page.get_target_titles(),
                              "invalid nutritional target was added to the target page")
         except AssertionError as e:

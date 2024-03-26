@@ -9,4 +9,3 @@ pytest-html~=4.1.1
 pytest~=8.1.1
 inquirer~=3.2.4
 pytest-xdist~=3.5.0
-allure-pytest

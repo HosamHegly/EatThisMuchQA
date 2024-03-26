@@ -27,7 +27,7 @@ def run_pytest(parallel=False):
         try:
             subprocess.run(parallel_cmd, check=True)
         except subprocess.CalledProcessError as e:
-            print(e.returncode)
+            print(f"Tests failed with return code {e.returncode}. Continuing the build...")
 
     try:
         serial_html_report = os.path.join(reports_dir, "report_serial.html")
