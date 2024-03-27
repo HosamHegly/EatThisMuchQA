@@ -21,10 +21,8 @@ def run_pytest(parallel=False):
 
     if parallel:
         parallel_cmd = base_cmd + ["-n", "3", "-m", "not serial"] + allure_cmd
-        try:
-            subprocess.run(parallel_cmd, check=True)
-        except subprocess.CalledProcessError as e:
-            print(f"Parallel tests failed with return code {e.returncode}. Continuing the build...")
+        subprocess.run(parallel_cmd, check=True)
+
 
     try:
         serial_cmd = base_cmd + ["-m", "serial"] + allure_cmd
