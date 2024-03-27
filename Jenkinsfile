@@ -81,17 +81,26 @@ pipeline {
 
     }
     post {
-         always {
+        always {
             script {
-              allure([
-                includeProperties: false,
-                jdk: '',
-                properties: [],
-                reportBuildPolicy: 'ALWAYS',
-                results: [[path: 'reports/allure-results']]
-              ])
+                // This step generates the Allure report from the results
+                allure([
+                    includeProperties: false,
+                    jdk: '',
+                    properties: [],
+                    reportBuildPolicy: 'ALWAYS',
+                    results: [[path: 'reports/allure-results']]
+                ])
             }
-          }
+            publishHTML(target: [
+                allowMissing: false,
+                alwaysLinkToLastBuild: true,
+                keepAll: true,
+                reportDir: 'reports/allure-report',
+                reportFiles: 'index.html',
+                reportName: 'Allure Report'
+            ])
+        }
         success {
             echo 'Build succeeded.'
             slackSend (color: 'good', message: "SUCCESS: Build completed successfully.")
