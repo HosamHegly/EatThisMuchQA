@@ -309,3 +309,49 @@
 2024-03-27 21:18:06,300 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/foodobject/768379935/?HTTP_BACKEND_VERSION=15
 2024-03-27 21:18:07,472 - INFO - Received response: 204
 2024-03-27 21:18:07,597 - INFO - Received response: 204
+2024-03-27 21:24:15,716 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&min_calories=300&max_calories=1000&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:15,723 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:15,739 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&min_calories=300&max_calories=1000&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:15,741 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:17,041 - INFO - Received response: 200
+2024-03-27 21:24:17,199 - INFO - Received response: 200
+2024-03-27 21:24:17,199 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/957173/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:17,231 - INFO - Received response: 200
+2024-03-27 21:24:17,233 - INFO - Received response: 200
+2024-03-27 21:24:17,233 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/33946/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:17,981 - INFO - Received response: 200
+2024-03-27 21:24:17,982 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/2655/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:18,009 - INFO - Received response: 200
+2024-03-27 21:24:18,025 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:18,805 - INFO - Received response: 200
+2024-03-27 21:24:18,806 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/2653/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:19,329 - INFO - Received response: 200
+2024-03-27 21:24:19,329 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:19,558 - INFO - Received response: 200
+2024-03-27 21:24:19,559 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/2654/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:20,283 - INFO - Received response: 200
+2024-03-27 21:24:20,283 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:20,425 - INFO - Received response: 200
+2024-03-27 21:24:21,454 - INFO - Received response: 200
+2024-03-27 21:24:21,455 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:22,441 - INFO - Received response: 200
+2024-03-27 21:24:22,441 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:23,403 - INFO - Received response: 200
+2024-03-27 21:24:23,404 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:24,318 - INFO - Making POST request to https://www.eatthismuch.com/api/v1/nutritionprofile/?HTTP_BACKEND_VERSION=15 with body: {'cholesterol': 300, 'fiber': 25, 'macro_scheme': 'grams', 'percent_carbs': 40, 'percent_fats': 30, 'percent_proteins': 30, 'sodium': 2400, 'title': 'Lcumq Xsxys', 'calories': 572334187, 'min_carbs': 220, 'min_fats': 66, 'min_proteins': 107, 'max_carbs': 250, 'max_fats': 90, 'max_proteins': 250, 'capped_min_calories': False}
+2024-03-27 21:24:24,380 - INFO - Received response: 200
+2024-03-27 21:24:24,381 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:25,612 - INFO - Received response: 201
+2024-03-27 21:24:25,960 - INFO - Received response: 200
+2024-03-27 21:24:25,961 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:27,591 - INFO - Received response: 200
+2024-03-27 21:24:27,591 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:28,728 - INFO - Making POST request to https://www.eatthismuch.com/api/v1/nutritionprofile/?HTTP_BACKEND_VERSION=15 with body: {'cholesterol': 300, 'fiber': 25, 'macro_scheme': 'grams', 'percent_carbs': 40, 'percent_fats': 30, 'percent_proteins': 30, 'sodium': 2400, 'title': 'Rmqeg Efxqe', 'calories': 3304, 'min_carbs': 220, 'min_fats': 66, 'min_proteins': 107, 'max_carbs': 250, 'max_fats': 90, 'max_proteins': 200, 'capped_min_calories': False}
+2024-03-27 21:24:29,024 - INFO - Received response: 200
+2024-03-27 21:24:29,025 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&q=meat&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 21:24:30,025 - INFO - Received response: 201
+2024-03-27 21:24:30,379 - INFO - Received response: 200
+2024-03-27 21:24:32,542 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/nutritionprofile/6184676/?HTTP_BACKEND_VERSION=15
+2024-03-27 21:24:33,837 - INFO - Received response: 204
+2024-03-27 21:24:35,729 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/nutritionprofile/6184677/?HTTP_BACKEND_VERSION=15
+2024-03-27 21:24:36,909 - INFO - Received response: 204
