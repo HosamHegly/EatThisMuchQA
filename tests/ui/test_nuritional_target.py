@@ -18,7 +18,6 @@ config = get_config_data()
 browser_types = [(browser,) for browser in config["browser_types"]]
 
 
-@parameterized_class(('browser',), browser_types)
 class TestNutritionalTarget(unittest.TestCase):
     browser = 'chrome'
 
@@ -27,7 +26,9 @@ class TestNutritionalTarget(unittest.TestCase):
         self.driver = self.browser_wrapper.get_driver(browser=self.browser)
         self.browser_wrapper.add_browser_cookie()
         self.my_api = APIWrapper()
-        self.nutritional_target = NutritionalTargetEndPoint(self.my_api)
+        self.nutritional_target_endpoint = NutritionalTargetEndPoint(self.my_api)
+        self.browser_wrapper.goto(urls['Nutritional_Target'])
+        self.nutritional_targets_page = NutritionalTargetPage(self.driver)
         self.meal_setting = MealSettingsEndPoint(self.my_api)
         self.jira_client = JiraClient()
         self.test_failed = False
@@ -39,13 +40,9 @@ class TestNutritionalTarget(unittest.TestCase):
             body = valid_target[0]
             body['title'] = generate_random_5_letter_name()
             body['calories'] = choose_random_number_in_range(3000,3500)
-
-            response = self.nutritional_target.create_nutritional_target(body=body).json()
+            response = self.nutritional_target_endpoint.create_nutritional_target(body=body).json()
             self.target_id = response['data']['id']
-
-            self.browser_wrapper.goto(urls['Nutritional_Target'])
-            self.nutritional_targets_page = NutritionalTargetPage(self.driver)
-            time.sleep(2)
+            self.browser_wrapper.refresh()
             self.assertIn(response['data']['title'], self.nutritional_targets_page.get_target_titles(),
                           "nutritional target wasn't added to the target page")
         except AssertionError as e:
@@ -60,13 +57,10 @@ class TestNutritionalTarget(unittest.TestCase):
         try:
             body = invalid_target[0]
             body['title'] = generate_random_5_letter_name()
-            body['calories'] = choose_random_number_in_range(10000000, 100000000)
-
-            response = self.nutritional_target.create_nutritional_target(body=body).json()
+            body['calories'] = choose_random_number_in_range(100000000, 1000000000)
+            response = self.nutritional_target_endpoint.create_nutritional_target(body=body).json()
             self.target_id = response['data']['id']
-
-            self.browser_wrapper.goto(urls['Nutritional_Target'])
-            self.nutritional_targets_page = NutritionalTargetPage(self.driver)
+            self.browser_wrapper.refresh()
             time.sleep(2)
             self.assertNotIn(response['data']['title'], self.nutritional_targets_page.get_target_titles(),
                              "invalid nutritional target was added to the target page")
@@ -78,7 +72,7 @@ class TestNutritionalTarget(unittest.TestCase):
     def tearDown(self):
         self.browser_wrapper.close_browser()
 
-        self.nutritional_target.delete_nutritional_target(target_id=self.target_id)
+        self.nutritional_target_endpoint.delete_nutritional_target(target_id=self.target_id)
 
         self.test_name = self.id().split('.')[-1]
         if self.test_failed:

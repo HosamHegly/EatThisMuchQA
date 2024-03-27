@@ -13,7 +13,7 @@ class FoodAdditionEndpoint:
         body = {
             "eaten": False,
             "food": food_api,
-            "meal": "/api/v1/meal/558981041/",
+            "meal": "/api/v1/meal/559104719/",
             "scaled_amount": 1,
             "units": 1,
             "user_chosen": True
@@ -29,8 +29,6 @@ class FoodAdditionEndpoint:
             raise Exception(error_message)
 
     def remove_food_from_breakfast(self, food_id):
-        print(f"{self.url}/{food_id}/?{self.config['backend_version']}")
-
         response = self.my_api.api_delete_request(url=f"{self.url}/{food_id}/?{self.config['backend_version']}", header=self.headers)
         # Check if the response was successful
         if response.status_code == 204:

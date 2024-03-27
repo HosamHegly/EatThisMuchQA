@@ -1,0 +1,32 @@
+2024-03-27 17:07:26,236 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&min_calories=300&max_calories=1000&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:07:27,813 - INFO - Received response: 200
+2024-03-27 17:07:27,814 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/332363/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:07:28,857 - INFO - Received response: 200
+2024-03-27 17:07:28,858 - INFO - Making POST request to https://www.eatthismuch.com/api/v1/foodobject/?HTTP_BACKEND_VERSION=15 with body: {'eaten': False, 'food': '/api/v1/food/332363/', 'meal': '/api/v1/meal/559104719/', 'scaled_amount': 1, 'units': 1, 'user_chosen': True}
+2024-03-27 17:07:30,358 - INFO - Received response: 201
+2024-03-27 17:07:35,175 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/foodobject/768352773/?HTTP_BACKEND_VERSION=15
+2024-03-27 17:07:35,736 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&min_calories=300&max_calories=1000&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:07:36,599 - INFO - Received response: 204
+2024-03-27 17:07:37,312 - INFO - Received response: 200
+2024-03-27 17:07:37,312 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/33492/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:07:38,289 - INFO - Received response: 200
+2024-03-27 17:07:38,290 - INFO - Making POST request to https://www.eatthismuch.com/api/v1/foodobject/?HTTP_BACKEND_VERSION=15 with body: {'eaten': False, 'food': '/api/v1/food/33492/', 'meal': '/api/v1/meal/559104719/', 'scaled_amount': 1, 'units': 1, 'user_chosen': True}
+2024-03-27 17:07:39,481 - INFO - Received response: 201
+2024-03-27 17:07:45,699 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/foodobject/768352781/?HTTP_BACKEND_VERSION=15
+2024-03-27 17:07:46,773 - INFO - Received response: 204
+2024-03-27 17:08:21,649 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&min_calories=300&max_calories=1000&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:08:23,120 - INFO - Received response: 200
+2024-03-27 17:08:23,120 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/33511/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:08:24,135 - INFO - Received response: 200
+2024-03-27 17:08:24,136 - INFO - Making POST request to https://www.eatthismuch.com/api/v1/foodobject/?HTTP_BACKEND_VERSION=15 with body: {'eaten': False, 'food': '/api/v1/food/33511/', 'meal': '/api/v1/meal/559104719/', 'scaled_amount': 1, 'units': 1, 'user_chosen': True}
+2024-03-27 17:08:25,295 - INFO - Received response: 201
+2024-03-27 17:08:29,156 - INFO - Making GET request to https://www.eatthismuch.com/g/search/?limit=40&min_calories=300&max_calories=1000&HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:08:30,034 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/foodobject/768352885/?HTTP_BACKEND_VERSION=15
+2024-03-27 17:08:30,478 - INFO - Received response: 200
+2024-03-27 17:08:30,478 - INFO - Making GET request to https://www.eatthismuch.com/api/v1/food/39211/?HTTP_BACKEND_VERSION=15 with body: None
+2024-03-27 17:08:31,172 - INFO - Received response: 204
+2024-03-27 17:08:31,498 - INFO - Received response: 200
+2024-03-27 17:08:31,498 - INFO - Making POST request to https://www.eatthismuch.com/api/v1/foodobject/?HTTP_BACKEND_VERSION=15 with body: {'eaten': False, 'food': '/api/v1/food/39211/', 'meal': '/api/v1/meal/559104719/', 'scaled_amount': 1, 'units': 1, 'user_chosen': True}
+2024-03-27 17:08:33,037 - INFO - Received response: 201
+2024-03-27 17:08:39,849 - INFO - Making DELETE request to https://www.eatthismuch.com/api/v1/foodobject/768352935/?HTTP_BACKEND_VERSION=15
+2024-03-27 17:08:41,059 - INFO - Received response: 204

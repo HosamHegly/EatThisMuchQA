@@ -34,6 +34,7 @@ class NutritionalTargetPage(BasePage):
         self.target_button.click()
 
     def get_target_titles(self):
+        self.init_targets()
         all_title = []
         for title in self.target_titles:
             all_title.append(title.text)
