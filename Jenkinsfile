@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'Setting up Selenium server HUB...'
                 bat "start /b java -jar selenium-server-4.17.0.jar hub"
-                bat 'ping 127.0.0.1 -n 11 > nul'
+                bat 'ping 127.0.0.1 -n 5 > nul'
             }
             post {
                 success {
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 echo 'Setting up Selenium server nodes...'
                 bat "start /b java -jar selenium-server-4.17.0.jar node --port 5555 --selenium-manager true"
-                bat 'ping 127.0.0.1 -n 11 > nul'
+                bat 'ping 127.0.0.1 -n 5 > nul'
             }
             post {
                 success {
