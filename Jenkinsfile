@@ -24,7 +24,7 @@ pipeline {
             steps {
                 echo 'Setting up Selenium server HUB...'
                 bat "start /b java -jar selenium-server-4.17.0.jar hub"
-                bat 'ping 127.0.0.1 -n 6 > nul'
+                bat 'ping 127.0.0.1 -n 11 > nul'
             }
             post {
                 success {
@@ -39,7 +39,7 @@ pipeline {
             steps {
                 echo 'Setting up Selenium server nodes...'
                 bat "start /b java -jar selenium-server-4.17.0.jar node --port 5555 --selenium-manager true"
-                bat 'ping 127.0.0.1 -n 6 > nul'
+                bat 'ping 127.0.0.1 -n 11 > nul'
             }
             post {
                 success {
@@ -78,31 +78,19 @@ pipeline {
                 }
             }
         }
-
+         stage('Publish Report') {
+             steps {
+                bat 'powershell Compress-Archive -Path reports/* -DestinationPath report.zip -Force'
+                archiveArtifacts artifacts: 'report.zip', onlyIfSuccessful: true
+    }
+}
     }
     post {
         always {
-            script {
-                // This step generates the Allure report from the results
-                allure([
-                    includeProperties: false,
-                    jdk: '',
-                    properties: [],
-                    reportBuildPolicy: 'ALWAYS',
-                    results: [[path: 'reports/allure-results']]
-                ])
-            }
-            publishHTML(target: [
-                allowMissing: false,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'reports/allure-report',
-                reportFiles: 'index.html',
-                reportName: 'Allure Report'
-            ])
-
+            echo 'Cleaning up...'
+            // General cleanup notification
+            slackSend (color: 'warning', message: "NOTIFICATION: Cleaning up resources...")
         }
-
         success {
             echo 'Build succeeded.'
             slackSend (color: 'good', message: "SUCCESS: Build completed successfully.")
