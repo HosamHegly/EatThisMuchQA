@@ -22,7 +22,6 @@ config = get_config_data()
 browser_types = [(browser,) for browser in config["browser_types"]]
 
 
-@parameterized_class(('browser',), browser_types)
 class MealEditTest(unittest.TestCase):
     browser = 'chrome'
 
