@@ -34,9 +34,7 @@ def run_pytest(parallel=False):
         else:
             print(f"Serial tests failed with return code {e.returncode}.")
 
-    # Optional: Generate an Allure report in a new directory
-    allure_report_dir = "reports/allure-report"
-    subprocess.run(["C:/npm/allure.cmd", "generate", reports_dir, "-o", allure_report_dir, "--clean"], check=True)
+
 
 if __name__ == "__main__":
     is_parallel = get_config_data().get("parallel", False)
