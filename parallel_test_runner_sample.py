@@ -20,7 +20,7 @@ def run_pytest(parallel=False):
     allure_cmd = ["--alluredir", reports_dir]
 
     if parallel:
-        parallel_cmd = base_cmd + ["-n", "4", "-m", "not serial"] + allure_cmd
+        parallel_cmd = base_cmd + ["-n", "3", "-m", "not serial"] + allure_cmd
         try:
             subprocess.run(parallel_cmd, check=True)
         except subprocess.CalledProcessError as e:
