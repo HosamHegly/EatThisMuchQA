@@ -4,11 +4,10 @@
   "url": "https://www.eatthismuch.com/app/planner/today",
   "grid": false,
   "parallel": true,
-  "serial": true,
   "browser": "chrome",
   "platform": "windows",
   "browser_types": [
-    "chrome", "firefox"
+    "chrome", "edge"
 
   ],
   "api_url": "https://www.eatthismuch.com",

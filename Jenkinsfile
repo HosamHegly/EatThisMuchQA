@@ -100,7 +100,9 @@ pipeline {
                 reportFiles: 'index.html',
                 reportName: 'Allure Report'
             ])
+
         }
+
         success {
             echo 'Build succeeded.'
             slackSend (color: 'good', message: "SUCCESS: Build completed successfully.")
