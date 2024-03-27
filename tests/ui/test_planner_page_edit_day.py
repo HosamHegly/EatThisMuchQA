@@ -41,7 +41,9 @@ class MealEditTest(unittest.TestCase):
         self.jira_client = JiraClient()
         self.test_failed = False
 
-    def test_food_addition(self):
+    def test_food_addition_with_calorie_filter(self):
+        """test food addition: send api for search by calorie filter, get an food api from reponse and add it breakfast with add food api call
+        then check if food is added in breakfast with ui"""
         try:
             before_cals = self.planner_page.get_total_calories()
             response = self.search_filter_api.search_by_cals(min_cals=300, max_cals=1000).json()

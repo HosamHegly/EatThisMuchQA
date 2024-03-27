@@ -20,6 +20,8 @@ class FoodSearchTest(unittest.TestCase):
         self.test_failed = False
 
     def test_food_calories_filter_response_body(self, min_cals=300, max_cals=1000):
+        """api test for fetching food api with filter by calorie body api call"""
+
         try:
             response = self.search_filter_api.search_by_cals(min_cals=min_cals, max_cals=max_cals).json()
             food_api_list = response['data']['object_resource_uris']
@@ -32,7 +34,10 @@ class FoodSearchTest(unittest.TestCase):
             self.test_failed = True
             self.error_msg = str(e)
             raise
+
     def test_food_calories_filter_response_code(self, min_cals=300, max_cals=1000):
+        """api test for fetching food api with filter by calories status api call"""
+
         try:
             response = self.search_filter_api.search_by_cals(min_cals=min_cals, max_cals=max_cals)
             self.assertEqual(response.status_code, 200, "Didn't get status code 200 on get food details API call")
@@ -40,7 +45,10 @@ class FoodSearchTest(unittest.TestCase):
             self.test_failed = True
             self.error_msg = str(e)
             raise
+
     def test_food_name_filter_response_body(self, food_name_search='meat'):
+        """api test for fetching food api with filter by name body api call"""
+
         try:
             response = self.search_filter_api.search_by_name(food_name_search).json()
             food_api_list = response['data']['object_resource_uris']
@@ -58,6 +66,7 @@ class FoodSearchTest(unittest.TestCase):
             raise
 
     def test_food_name_filter_response_code(self, food_search_name='meat'):
+        """api test for fetching food api with filter by name status api call"""
         try:
             response = self.search_filter_api.search_by_name(food_search_name)
             self.assertEqual(response.status_code, 200, "Didn't get status code 200 on get food details API call")
@@ -66,12 +75,13 @@ class FoodSearchTest(unittest.TestCase):
             self.error_msg = str(e)
             raise
 
-    def test_performance_search_by_name(self, max_time_seconds=100, food_name_search='meat', num_requests=10):
+    def test_performance_search_by_name(self, max_time_seconds=100, food_name_search='meat', num_requests=1000):
+        """performance load test: send num_requests api calls and measure time it takes to get the reponses"""
         try:
-            start_time = time.time()  # Start timer
+            start_time = time.time()
             for _ in range(num_requests):
                 self.search_filter_api.search_by_name(food_name_search)
-            total_time = time.time() - start_time  # End timer
+            total_time = time.time() - start_time
             self.assertLess(total_time, max_time_seconds,
                             "Performance isn't optimal; took more than 100 seconds to send 100 requests")
         except AssertionError as e:

@@ -22,9 +22,7 @@ browser_types = [(browser,) for browser in config["browser_types"]]
 
 
 @pytest.mark.serial
-@parameterized_class(('browser',), [
-    ('chrome',),
-])
+@parameterized_class(('browser',), browser_types)
 class TestNutritionalTargetSetting(unittest.TestCase):
     browser = 'chrome'
     _non_parallel = True
@@ -40,6 +38,8 @@ class TestNutritionalTargetSetting(unittest.TestCase):
         self.test_failed = False
 
     def test_create_target_and_change_meal_settings_to_target(self):
+        """'end to end ui test that creates a natrutional target then changes to the meal setting to that target then goes
+        to planner page and check's target calorie"""
         try:
             self.planner_page.go_to_menu()
             self.menu = Menu(self.driver)
@@ -64,7 +64,7 @@ class TestNutritionalTargetSetting(unittest.TestCase):
             time.sleep(2)
             self.menu.go_to_planner_page()
             target_cals = self.planner_page.get_target_cals()
-            time.sleep(4)
+            time.sleep(2)
 
             self.menu.go_to_nutritional_target_page()
             time.sleep(1)
@@ -78,6 +78,8 @@ class TestNutritionalTargetSetting(unittest.TestCase):
             raise
 
     def test_nutrional_target_change_setting(self):
+        """'send an api call that creates a target then an api that changes settings than with ui
+        go to planner page, sync page then check target calories"""
         try:
 
             self.nutritional_target_api = NutritionalTargetEndPoint(self.my_api)

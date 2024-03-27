@@ -33,6 +33,8 @@ class TestNutritionalTarget(unittest.TestCase):
         self.test_failed = False
 
     def test_valid_nutrional_target_creation(self):
+        """send api call to create valid target with random name and calorie count then check if it's in the page
+        with ui"""
         try:
             body = valid_target[0]
             body['title'] = generate_random_5_letter_name()
@@ -52,6 +54,9 @@ class TestNutritionalTarget(unittest.TestCase):
             raise
 
     def test_invalid_nutrional_target_creation(self):
+        """negative test: send api call
+         to create valid target with random name and calorie count then check if it's in the page with ui"""
+
         try:
             body = invalid_target[0]
             body['title'] = generate_random_5_letter_name()
