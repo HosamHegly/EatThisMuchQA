@@ -10,7 +10,7 @@ from Utils.json_reader import get_config_data
 def run_pytest(parallel=False):
     # Load configuration
     config = get_config_data()
-    ui_test_path = "test/ui/test_nuritional_target.py"
+    ui_test_path = "tests/ui/test_nuritional_target.py"
     api_tests_path = "tests/api"
     reports_dir = "reports"
     os.makedirs(reports_dir, exist_ok=True)

@@ -64,26 +64,20 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Publish Report') {
             steps {
-                echo 'Deploying..'
-                // Your deployment steps here
-            }
-            post {
-                success {
-                    slackSend (color: 'good', message: "SUCCESS: Deploy stage completed successfully.")
-                }
-                failure {
-                    slackSend (color: 'danger', message: "FAILURE: Deploy stage failed.")
-                }
+                echo 'Publishing HTML report...'
+                publishHTML ([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true,
+                    reportDir: 'reports', // Or the directory where your HTML report is located
+                    reportFiles: 'index.html', // The main HTML file of your report
+                    reportName: "HTML Report"
+                ])
             }
         }
-         stage('Publish Report') {
-             steps {
-                bat 'powershell Compress-Archive -Path reports/* -DestinationPath report.zip -Force'
-                archiveArtifacts artifacts: 'report.zip', onlyIfSuccessful: true
-    }
-}
+
     }
     post {
         always {
