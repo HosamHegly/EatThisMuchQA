@@ -10,20 +10,20 @@ from Utils.json_reader import get_config_data
 def run_pytest(parallel=False):
     # Load configuration
     config = get_config_data()
-
-    ui_tests_path = "tests/api"
+    ui_test_path = "tests/ui/test_nuritional_target.py"
+    api_tests_path = "tests/api"
     reports_dir = "reports"
     os.makedirs(reports_dir, exist_ok=True)
 
     python_path = os.path.join("venv", "Scripts", "python.exe")
 
     # Base command using the virtual environment's Python
-    base_cmd = [python_path, "-m", "pytest", ui_tests_path]
+    base_cmd = [python_path, "-m", "pytest", ui_test_path,api_tests_path]
 
     html_report = os.path.join(reports_dir, "report.html")
 
     if parallel:
-        parallel_cmd = base_cmd + ["-n", "3", "-m", "not serial", f"--html={html_report}"]
+        parallel_cmd = base_cmd + ["-n", "4", "-m", "not serial", f"--html={html_report}"]
         try:
             subprocess.run(parallel_cmd, check=True)
         except subprocess.CalledProcessError as e:

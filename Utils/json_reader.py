@@ -17,7 +17,6 @@ def get_config_data():
     filename = get_filename(os.path.join('config','config.json'))
     with open(filename, 'r') as file:
         config = json.load(file)
-        validate_config(config)
         return config
 
 
@@ -27,12 +26,3 @@ def get_json(file):
         config = json.load(file)
         return config
 
-
-def validate_config(config_data):
-    filename = get_filename(os.path.join('config','config_schema.json'))
-    with open(filename, 'r') as file:
-        schema_data = json.load(file)
-    try:
-        validate(instance=config_data, schema=schema_data)
-    except jsonschema.exceptions.ValidationError as ve:
-        raise ValueError(f"Configuration is invalid: {ve}")

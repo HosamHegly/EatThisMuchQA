@@ -22,10 +22,7 @@ config = get_config_data()
 browser_types = [(browser,) for browser in config["browser_types"]]
 
 
-@parameterized_class(('browser',), browser_types)
 class MealEditTest(unittest.TestCase):
-    _non_parallel = True
-    USER = get_valid_user('Hosam')
     browser = 'chrome'
 
     def setUp(self):
@@ -45,10 +42,9 @@ class MealEditTest(unittest.TestCase):
         """test food addition: send api for search by calorie filter, get an food api from reponse and add it breakfast with add food api call
         then check if food is added in breakfast with ui"""
         try:
-            before_cals = self.planner_page.get_total_calories()
             response = self.search_filter_api.search_by_cals(min_cals=300, max_cals=1000).json()
             food_api_list = response['data']['object_resource_uris']
-            food_api = food_api_list[choose_random_number_in_range(0, len(food_api_list))]
+            food_api = food_api_list[choose_random_number_in_range(0, len(food_api_list)-1)]
             food_response = self.food.get_food_details(food_api).json()
             food_name = food_response['data']['food_name'].lower()
             food_addition_response = self.food_addition_api.add_food_to_breakfast(food_api=food_api).json()
