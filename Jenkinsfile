@@ -72,7 +72,7 @@ pipeline {
                     alwaysLinkToLastBuild: true,
                     keepAll: true,
                     reportDir: 'reports', // Or the directory where your HTML report is located
-                    reportFiles: 'index.html', // The main HTML file of your report
+                    reportFiles: 'report.html', // The main HTML file of your report
                     reportName: "HTML Report"
                 ])
             }
