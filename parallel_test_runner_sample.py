@@ -11,14 +11,13 @@ def run_pytest(parallel=False):
     # Load configuration
     config = get_config_data()
 
-    ui_tests_path = "tests/api"
+    ui_tests_path = "tests/ui/test_food_addition.py"
     reports_dir = "reports"
     os.makedirs(reports_dir, exist_ok=True)
 
-    python_path = os.path.join("venv", "Scripts", "python.exe")
 
     # Base command using the virtual environment's Python
-    base_cmd = [python_path, "-m", "pytest", ui_tests_path]
+    base_cmd = ["pytest", ui_tests_path]
 
     html_report = os.path.join(reports_dir, "report.html")
 

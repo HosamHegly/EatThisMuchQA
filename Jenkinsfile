@@ -86,11 +86,17 @@ pipeline {
 }
     }
     post {
-        always {
-            echo 'Cleaning up...'
-            // General cleanup notification
-            slackSend (color: 'warning', message: "NOTIFICATION: Cleaning up resources...")
-        }
+         always {
+            script {
+              allure([
+                includeProperties: false,
+                jdk: '',
+                properties: [],
+                reportBuildPolicy: 'ALWAYS',
+                results: [[path: 'reports/allure-results']]
+              ])
+            }
+          }
         success {
             echo 'Build succeeded.'
             slackSend (color: 'good', message: "SUCCESS: Build completed successfully.")
