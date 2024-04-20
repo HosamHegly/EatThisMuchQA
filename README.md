@@ -1,81 +1,160 @@
+<p align="center">
+    <img width="341" alt="image" src="https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/97bd4e80-f358-4360-9f3a-d5f4ad75c060">
+</p>
+<p align="center">
+    <h1 align="center">EATTHISMUCHQA</h1>
+</p>
+<p align="center">
+    <em>API & UI Automation Project for EatThisMuch</em>
+</p>
+<p align="center">
+	<img src="https://img.shields.io/github/license/HosamHegly/EatThisMuchQA?style=default&logo=opensourceinitiative&logoColor=white&color=orange" alt="license">
+	<img src="https://img.shields.io/github/last-commit/HosamHegly/EatThisMuchQA?style=default&logo=git&logoColor=white&color=orange" alt="last-commit">
+	<img src="https://img.shields.io/github/languages/top/HosamHegly/EatThisMuchQA?style=default&color=orange" alt="repo-top-language">
+	
+<p align="center">
+	<!-- default option, no dependency badges. -->
+</p>
 
+<br><!-- TABLE OF CONTENTS -->
+<details>
+  <summary>Table of Contents</summary><br>
 
-# EatThisMuch Selenium Grid Automation Testing
+- [ Overview](#-overview)
+- [ Features](#-features)
+- [ Repository Structure](#-repository-structure)
+- [ Getting Started](#-getting-started)
+  - [ Installation](#-installation)
+  - [ Usage](#-usage)
+  - [ Tests](#-tests)
+- [ Contributing](#-contributing)
+- [ License](#-license)
+- [ Acknowledgments](#-acknowledgments)
+</details>
+<hr>
 
-## Overview
-This project provides a comprehensive automation testing framework for the EatThisMuch web application https://www.eatthismuch.com/app , utilizing Selenium Grid and the requests library. Designed around the Page Object Model (POM) pattern, it aims to improve the creation, maintenance, and readability of test scripts. The project is structured into Infrastructure, Logic, Tests, Utils, and a configuration file for flexible test execution.
+##  Overview
 
-## Features
-- **Selenium Grid Integration**: Facilitates running tests across multiple browsers and platforms simultaneously.
-- **Page Object Model (POM)**: Enhances test case management and reduces code duplication.
-- **Configurable Test Execution**: Allows customization of test runs by browser, platform, and execution mode (parallel or serial).
-- **Support for Multiple Browsers**: Ensures cross-browser compatibility.
-- **Integration with Jira and Slack**: Automatically updates test statuses in Jira and sends notifications to Slack, enhancing team collaboration and project management.
-- **Jenkins Pipeline**: Implements a CI/CD pipeline for automated test execution, making the testing process more efficient and scalable.
+The EatThisMuchQA project is designed to automate testing and ensure quality control for the EatThisMuch platform through API and UI automation. The project includes various scripts and testing frameworks to manage and execute tests efficiently. This enables faster development cycles and reliable application updates.
 
-## Project Structure
-- **Infrastructure**: Setup for Selenium WebDriver and requests framework, including driver initialization and grid configuration.
-- **Logic**: Business logic for interacting with the web application, abstracting complex actions into reusable methods.
-- **Tests**: API and UI test cases using POM to interact with the web application.
-- **Utils**: Utility functions and helpers supporting test execution, such as data generators or custom wait methods.
-- **config.json**: Configuration file to specify browsers, platforms, and other test run preferences.
+---
 
-## Getting Started
+##  Features
 
-### Prerequisites
-- Java (for Selenium Grid)
-- Python 3.6 or higher
-- Selenium WebDriver
-- requests
-- pytest
-- A running instance of Selenium Grid
+##  Repository Structure
 
-### Setup
-1. Clone the repository: `git clone https://github.com/HosamHegly/EatThisMuchQA.git`
-2. Install required Python packages: `pip install -r requirements.txt`
-3. Ensure Selenium Grid is up and running. For setup instructions, visit Selenium's official documentation.
+```sh
+└── EatThisMuchQA/
+    ├── infra
+    │     ├── api_wrapper
+    │     ├── ui_wrapper
+    │     └── jira_client
+    │
+    ├ ── logic
+    │     ├── ui_logic
+    │     └── api_logic
+    │   
+    ├── tests
+    │    ├── ui_tests
+    │    └── api_tests
+    │
+    ├── config
+    │     ├── json_reader.py
+    │     ├── logging_setup.py
+    │     ├── cookies.py
+    │    └── helper_functions.py
+    │
+    ├── test_data
+    └── Utils
 
-### Configuration
-Edit the `config.json` file to specify your testing environment. Options include:
-- `browser`: The web browser for tests (e.g., "chrome", "firefox").
-- `platform`: The operating system platform (e.g., "WINDOWS", "LINUX").
-- `execution_mode`: Run tests in "parallel" or "serial".
-- `driver`: Choose "grid" for Selenium Grid or "regular" for local WebDriver.
+```
 
-## Running Tests
-Execute test runner from the project Test directory:
+---
 
-<img width="650" alt="image" src="https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/7b29044a-9772-427e-bbb9-44efd5844e48">
+##  Getting Started
 
-## Continuous Integration
-- **Jenkins Pipeline**: A Jenkinsfile is included to define the pipeline for automated testing. Configure this in your Jenkins setup to run tests automatically on code push or at scheduled intervals.
-- **Jira Integration**: Ensure your Jira project is connected via the API to update issues based on test outcomes.
-- **Slack Notifications**: Configure Slack Webhooks to receive notifications about test runs, making it easier to track the progress and outcomes of testing.
+**System Requirements:**
 
+* **Python**: `version x.y.z`
 
-## Jira snippets:
+###  Installation
 
-![Screenshot 2024-04-01 005126](https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/1ff259da-47a7-4f56-a7d2-f2568090ab8a)
+<h4>From <code>source</code></h4>
 
+> 1. Clone the Steam-Automation-Project repository:
+>
+> ```console
+> $ git clone https://github.com/HosamHegly/EatThisMuchQA.git
+> ```
+>
+> 2. Change to the project directory:
+> ```console
+> $ cd EatThisMuchQA
+> ```
+>
+> 3. Install the dependencies:
+> ```console
+> $ pip install -r requirements.txt
+> ```
 
-![Screenshot 2024-04-01 005158](https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/ef5a9d0f-14c0-405c-b9ab-1b30be740ffd)
+###  Usage
 
+> Run the test suite using the command below:
+> ```console
+> $ pytest
+> ```
 
-## Slack snippets:
+---
 
-<img width="497" alt="image" src="https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/08ce9e4f-ddcb-444e-8799-bb7fd37b4d9a">
+##  Contributing
 
-<img width="512" alt="image" src="https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/f670745a-9f83-482e-907b-e174485c5d19">
+Contributions are welcome! Here are several ways you can contribute:
 
-## Jenkins Pipline snippets
+- **[Report Issues](https://github.com/jameel978/Steam-Automation-Project/issues)**: Submit bugs found or log feature requests for the `Steam-Automation-Project` project.
+- **[Submit Pull Requests](https://github.com/jameel978/Steam-Automation-Project/blob/main/CONTRIBUTING.md)**: Review open PRs, and submit your own PRs.
+- **[Join the Discussions](https://github.com/jameel978/Steam-Automation-Project/discussions)**: Share your insights, provide feedback, or ask questions.
 
-<img width="1230" alt="image" src="https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/a5e93e09-0519-4460-b81b-12a89314bf01">
+<details closed>
+<summary>Contributing Guidelines</summary>
 
-## HTML Test Report
+1. **Fork the Repository**: Start by forking the project repository to your github account.
+2. **Clone Locally**: Clone the forked repository to your local machine using a git client.
+   ```sh
+   git clone https://github.com/HosamHegly/EatThisMuchQA.git
+   ```
+3. **Create a New Branch**: Always work on a new branch, giving it a descriptive name.
+   ```sh
+   git checkout -b new-feature-x
+   ```
+4. **Make Your Changes**: Develop and test your changes locally.
+5. **Commit Your Changes**: Commit with a clear message describing your updates.
+   ```sh
+   git commit -m 'Implemented new feature x.'
+   ```
+6. **Push to github**: Push the changes to your forked repository.
+   ```sh
+   git push origin new-feature-x
+   ```
+7. **Submit a Pull Request**: Create a PR against the original project repository. Clearly describe the changes and their motivations.
+8. **Review**: Once your PR is reviewed and approved, it will be merged into the main branch. Congratulations on your contribution!
+</details>
 
-<img width="1246" alt="image" src="https://github.com/HosamHegly/EatThisMuchQA/assets/57544654/e05040a0-c5c8-45b6-9345-2ac752612639">
+<details closed>
+<summary>Contributor Graph</summary>
+<br>
+<p align="center">
+   <a href="https://github.com/HosamHegly/EatThisMuchQA/}graphs/contributors">
+      <img src="https://contrib.rocks/image?repo=HosamHegly/EatThisMuchQA">
+   </a>
+</p>
+</details>
 
+---
 
+##  License
 
+This project is licensed under the [MIT License](LICENSE).
+
+---
 
 
