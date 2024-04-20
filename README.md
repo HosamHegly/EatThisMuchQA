@@ -3,7 +3,7 @@
 # EatThisMuch Selenium Grid Automation Testing
 
 ## Overview
-This project provides a comprehensive automation testing framework for the EatThisMuch web application, utilizing Selenium Grid and the requests library. Designed around the Page Object Model (POM) pattern, it aims to improve the creation, maintenance, and readability of test scripts. The project is structured into Infrastructure, Logic, Tests, Utils, and a configuration file for flexible test execution.
+This project provides a comprehensive automation testing framework for the EatThisMuch web application https://www.eatthismuch.com/app , utilizing Selenium Grid and the requests library. Designed around the Page Object Model (POM) pattern, it aims to improve the creation, maintenance, and readability of test scripts. The project is structured into Infrastructure, Logic, Tests, Utils, and a configuration file for flexible test execution.
 
 ## Features
 - **Selenium Grid Integration**: Facilitates running tests across multiple browsers and platforms simultaneously.
